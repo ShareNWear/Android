@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">My Outfit</string>
+
+    //Facebook login credentials
+    <string name="facebook_app_id">160161902046286</string>
+    <string name="fb_login_protocol_scheme">fb160161902046286</string>
+
+
     <string name="title_activity_main">MainActivity</string>
+
+    <string name="loading">Loading</string>
+
+
 </resources>

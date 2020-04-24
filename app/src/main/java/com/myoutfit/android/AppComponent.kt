@@ -1,20 +1,28 @@
 package com.myoutfit.android
 
-import android.app.Application
+import com.myoutfit.MyOutfitApp
+import com.myoutfit.android.modules.*
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [AndroidInjectionModule::class, AppModule::class, BuildersModule::class]
+    modules = [
+        AndroidSupportInjectionModule::class,
+        AppViewModelsFactoryModule::class,
+        ActivityBuilder::class,
+        FragmentBuilder::class,
+        NetworkModule::class,
+        AppApiModule::class
+    ]
 )
 interface AppComponent {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun application(application: Application): Builder
+        fun application(application: MyOutfitApp): Builder
 
         fun build(): AppComponent
     }

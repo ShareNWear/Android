@@ -1,4 +1,3 @@
 package com.myoutfit.android
 
-interface Injectable {
-}
+interface Injectable
