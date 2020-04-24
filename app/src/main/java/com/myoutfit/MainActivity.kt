@@ -1,4 +1,4 @@
-package com.myoutfit.ui
+package com.myoutfit
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -18,10 +18,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        var loginFragment: LoginFragment = LoginFragment()
-        supportFragmentManager.beginTransaction().add(R.id.content, loginFragment)
-            .commit()
     }
 
 }

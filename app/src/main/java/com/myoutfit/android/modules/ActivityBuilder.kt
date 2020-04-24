@@ -1,6 +1,6 @@
 package com.myoutfit.android.modules
 
-import com.myoutfit.ui.MainActivity
+import com.myoutfit.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

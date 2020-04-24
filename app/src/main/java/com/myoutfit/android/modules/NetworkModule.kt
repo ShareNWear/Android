@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.myoutfit.BuildConfig
+import com.myoutfit.api.ApplicationApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -19,16 +20,16 @@ object NetworkModule {
     @Provides
     @Singleton
     @JvmStatic
-    fun provideRetrofit(
+    fun provideApplicationApi(
         httpClient: OkHttpClient,
         gson: Gson
-    ): Retrofit {
+    ): ApplicationApi {
         return Retrofit.Builder()
             .client(httpClient)
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .build()
+            .build().create(ApplicationApi::class.java)
     }
 
     @Provides
