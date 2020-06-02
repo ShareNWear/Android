@@ -14,8 +14,7 @@ import javax.inject.Singleton
         AppViewModelsFactoryModule::class,
         ActivityBuilder::class,
         FragmentBuilder::class,
-        NetworkModule::class,
-        AppApiModule::class
+        NetworkModule::class
     ]
 )
 interface AppComponent {

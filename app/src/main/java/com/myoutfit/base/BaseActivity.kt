@@ -1,8 +1,5 @@
 package com.myoutfit.base
 
-import android.content.Context
-import android.net.ConnectivityManager
-import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjector

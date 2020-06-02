@@ -52,10 +52,10 @@ abstract class BaseFragment : Fragment(), Injectable {
         context?.let { dialogLoading = DialogLoading(it) }
     }
 
-    protected fun isNetworkAvailable(context: Context): Boolean {
+/*    protected fun isNetworkAvailable(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected
-    }
+    }*/
 
     protected fun showLoading() {
         dialogLoading?.show()

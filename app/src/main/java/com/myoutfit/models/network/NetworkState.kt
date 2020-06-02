@@ -14,7 +14,7 @@ enum class ApiRequestStatus {
     NO_INTERNET
 }
 
-data class NetworkState private constructor(
+data class NetworkState constructor(
     val status: ApiRequestStatus,
     val commonError: CommonServerError? = null
 ) {
@@ -65,7 +65,6 @@ data class NetworkState private constructor(
             }
         }
 
-
         private fun getCommonErrorFromResponse(
             errorBody: ResponseBody?,
             alternateError: String? = null
@@ -87,7 +86,5 @@ data class NetworkState private constructor(
                 alternateError ?: TITLE_UNKNOWN_ERROR
             )
         }
-
-
     }
 }
