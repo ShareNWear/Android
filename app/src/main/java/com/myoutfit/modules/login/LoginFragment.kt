@@ -2,16 +2,14 @@ package com.myoutfit.modules.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.facebook.*
-import com.facebook.FacebookSdk.getApplicationContext
 import com.facebook.login.LoginResult
 import com.myoutfit.R
-import com.myoutfit.android.AppViewModelsFactory
+import com.myoutfit.di.AppViewModelsFactory
 import com.myoutfit.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject

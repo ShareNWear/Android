@@ -1,4 +1,4 @@
-package com.myoutfit.android.modules
+package com.myoutfit.di.modules
 
 import com.myoutfit.modules.login.LoginFragment
 import dagger.Module

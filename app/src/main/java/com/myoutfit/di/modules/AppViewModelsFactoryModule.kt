@@ -1,7 +1,7 @@
-package com.myoutfit.android.modules
+package com.myoutfit.di.modules
 
-import com.myoutfit.android.AppViewModelsComponent
-import com.myoutfit.android.AppViewModelsFactory
+import com.myoutfit.di.AppViewModelsComponent
+import com.myoutfit.di.AppViewModelsFactory
 import dagger.Module
 import dagger.Provides
 

@@ -1,7 +1,7 @@
-package com.myoutfit.android
+package com.myoutfit.di
 
 import com.myoutfit.MyOutfitApp
-import com.myoutfit.android.modules.*
+import com.myoutfit.di.modules.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule

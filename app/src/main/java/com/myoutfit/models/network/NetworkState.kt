@@ -36,7 +36,7 @@ data class NetworkState constructor(
         fun error(t: Throwable?): NetworkState {
             return when (t) {
                 is HttpException -> {
-                    val errorBody = t.response().errorBody()
+                    val errorBody = t.response()?.errorBody()
                     val serverError =
                         getCommonErrorFromResponse(errorBody)
                     NetworkState(

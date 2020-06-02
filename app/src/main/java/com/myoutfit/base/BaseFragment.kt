@@ -1,14 +1,12 @@
 package com.myoutfit.base
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.myoutfit.android.Injectable
+import com.myoutfit.di.Injectable
 import com.myoutfit.dialogs.DialogLoading
 
 abstract class BaseFragment : Fragment(), Injectable {
@@ -23,14 +21,6 @@ abstract class BaseFragment : Fragment(), Injectable {
 
     /*Using for initializing view models with viewModelProvider*/
     abstract fun initViewModel()
-
-    interface IOnDialogButtonClickListener {
-        fun onButtonClicked()
-    }
-
-    interface IOnDialogDoubleButtonClickListener : IOnDialogButtonClickListener {
-        fun onLeftButtonClicked()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,11 +41,6 @@ abstract class BaseFragment : Fragment(), Injectable {
         onViewReady(view, savedInstanceState)
         context?.let { dialogLoading = DialogLoading(it) }
     }
-
-/*    protected fun isNetworkAvailable(context: Context): Boolean {
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected
-    }*/
 
     protected fun showLoading() {
         dialogLoading?.show()

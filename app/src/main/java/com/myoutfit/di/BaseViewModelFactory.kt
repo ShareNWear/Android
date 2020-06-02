@@ -1,4 +1,4 @@
-package com.myoutfit.android
+package com.myoutfit.di
 
 import androidx.collection.ArrayMap
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package com.myoutfit.android
+package com.myoutfit.di
 
 import android.app.Activity
 import android.app.Application

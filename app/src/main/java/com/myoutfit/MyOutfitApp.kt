@@ -2,8 +2,8 @@ package com.myoutfit
 
 import android.app.Activity
 import android.app.Application
-import com.myoutfit.android.AppComponent
-import com.myoutfit.android.initInjections
+import com.myoutfit.di.AppComponent
+import com.myoutfit.di.initInjections
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
