@@ -3,9 +3,9 @@ package com.myoutfit.modules.login
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -66,7 +66,7 @@ class LoginFragment : BaseFragment() {
         viewModel.authorizationLiveData.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) {
-                    Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
+                    Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.eventsFragment)
                 }
             }
         })
@@ -92,9 +92,10 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun handleFacebookAccessToken(facebookToken: AccessToken) {
-        val tempCode =
-            "AQDMGyE9RmcGp1b9ntLRl0iGKgsjd6V9DDnySnRkW7_Az44zDet7vRhoTqyailri2vYOVnfsTtvrpAeCka2v5TjxpRL7OvNLsSO0aRHXkJBehcYAdz21jWh8BCB-KkzfcRXqgiFrePlNYwL6ROHICaYJ9Q0HqwoSbmWKyBSst1DjeaxnkVBg6TH3P5sTalPK-xuYcDMVHyS_DLgIP1P6iaULdNQ_9Cixne5mXrhKroaycFwTqIC47U21kJf0cdtO3SWrVSpe_z-o9giq3A6Mk0SQnWHrfFe2f3N0bNGPbKUx4GykT5zY_8-0ShL3SRj57zvHhvr6vpz2hha6ws-BEwes#_=_"
-        viewModel.loginFacebook(tempCode)
+        /* val tempCode =
+             "AQCBl3j8rIkJdYsu-E0YU4QkY_xzn_akYkzWWd8EECwwZlLKGXN4F7byVPXaf3QWJOqhEi22FX0wKlX-pmruf1ucgwfZQD-QMVLisWM2ykak5CinU3Txun_cw-LDW0ZqVFp4BnSn8XQuLBpbW9rV3c3_oyX-EkNeLyZEUFNaGc114v76tVuOPfg75OneQzZ9BH752IEsgLbszrTt76SXBjK1Xak0xhOrBcEgTkfEE3btb1ZUeBoHTKDQR83f332WImEQ6XIlxIF-JzBLF1xo9SaHlGSb6RBecZCczuFkFFROSj39CnY6yHZ5srfnDQu431zJyYbDRjnA45HT7nfnstBP#_=_"
+         viewModel.loginFacebook(tempCode)*/
+        Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.action_open_events)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
