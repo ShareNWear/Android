@@ -1,3 +1,15 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!--common margins-->
+    <dimen name="margin_very_small">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_average">12dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="margin_medium">24dp</dimen>
+    <dimen name="margin_large">32dp</dimen>
+    <dimen name="margin_super_large">48dp</dimen>
+
+    <dimen name="button_height">72dp</dimen>
+
 </resources>

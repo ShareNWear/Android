@@ -1,5 +1,6 @@
 package com.myoutfit.utils
 
+import com.myoutfit.utils.extentions.logd
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 

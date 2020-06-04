@@ -3,6 +3,6 @@ package com.myoutfit.models.login
 import com.google.gson.annotations.SerializedName
 
 data class LoginResponse (
-    @SerializedName("id") val id: String?,
-    @SerializedName("phoneNumber") val phoneNumber: String?
+    @SerializedName("access_token") val accessToken: String?,
+    @SerializedName("refresh_token") val refreshToken: String?
 )

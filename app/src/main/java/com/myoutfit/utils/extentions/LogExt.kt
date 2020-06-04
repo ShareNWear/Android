@@ -1,9 +1,9 @@
-package com.myoutfit.utils
+package com.myoutfit.utils.extentions
 
 import android.util.Log
 import com.myoutfit.BuildConfig
 
-fun logd(tag: String, text: String?) {
+fun logd(tag: String, text: String) {
     if (!BuildConfig.ENABLE_LOGS) return
     Log.d(tag, text)
 }
@@ -13,7 +13,7 @@ fun loge(tag: String, text: String?, tr: Exception?) {
     Log.e(tag, text, tr)
 }
 
-fun loge(tag: String, text: String?) {
+fun loge(tag: String, text: String) {
     if (!BuildConfig.ENABLE_LOGS) return
     Log.e(tag, text)
 }

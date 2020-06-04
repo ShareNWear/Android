@@ -1,5 +1,6 @@
 package com.myoutfit.repositories
 
+import com.myoutfit.R
 import com.myoutfit.api.ApplicationApi
 import com.myoutfit.models.login.LoginModel
 import com.myoutfit.models.login.LoginResponse
@@ -17,15 +18,14 @@ class AuthorizationRepository @Inject constructor(private val applicationApi: Ap
     ) = safeApiCall(
         call = {
             val response = applicationApi.authorizationAsync(
-                LoginModel(
-                    facebookToken
-                )
+                LoginModel(facebookToken)
             ).await()
 
             val data = response.body()
 
             if (data != null)
                 onSuccess(data)
+            else onError(R.string.error_server_default)
         },
         errorString = NetworkState.NO_INTERNET_CONNECTION
     ) {
