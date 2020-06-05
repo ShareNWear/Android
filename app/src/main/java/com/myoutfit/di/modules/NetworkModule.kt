@@ -4,8 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.myoutfit.BuildConfig
-import com.myoutfit.api.ApplicationApi
 import com.myoutfit.data.locale.sharedpreferences.AppSharedPreferences
+import com.myoutfit.data.remote.interceptors.RequestHeaderInterceptor
 import com.myoutfit.data.remote.interceptors.TokenInterceptor
 import dagger.Module
 import dagger.Provides
@@ -25,13 +25,13 @@ object NetworkModule {
     fun provideApplicationApi(
         httpClient: OkHttpClient,
         gson: Gson
-    ): ApplicationApi {
+    ): Retrofit {
         return Retrofit.Builder()
             .client(httpClient)
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .build().create(ApplicationApi::class.java)
+            .build()
     }
 
     @Provides
@@ -39,10 +39,10 @@ object NetworkModule {
     @JvmStatic
     fun provideHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        tokenInterceptor: TokenInterceptor
+        interceptor: RequestHeaderInterceptor
     ): OkHttpClient {
         val builder = OkHttpClient.Builder()
-            .addInterceptor(tokenInterceptor)
+            .addInterceptor(interceptor)
             .retryOnConnectionFailure(true)
             .readTimeout(18, TimeUnit.SECONDS)
             .connectTimeout(18, TimeUnit.SECONDS)
@@ -66,6 +66,13 @@ object NetworkModule {
     @Provides
     fun provideTokenInterceptor(preferences: AppSharedPreferences): TokenInterceptor {
         return TokenInterceptor(preferences)
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideRequestHeaderInterceptor(preferences: AppSharedPreferences): RequestHeaderInterceptor {
+        return RequestHeaderInterceptor(preferences)
     }
 
     @Singleton

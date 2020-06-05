@@ -7,7 +7,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface ApplicationApi {
+interface AuthorizationApi {
 
     @POST("api/user/login")
     fun authorizationAsync(@Body model: LoginModel): Deferred<Response<LoginResponse>>

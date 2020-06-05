@@ -14,8 +14,10 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.myoutfit.R
 import com.myoutfit.base.BaseFragment
+import com.myoutfit.data.locale.sharedpreferences.AppSharedPreferences
 import com.myoutfit.di.AppViewModelsFactory
 import com.myoutfit.models.network.ApiRequestStatus
+import com.myoutfit.utils.extentions.logd
 import com.myoutfit.utils.extentions.toastL
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
@@ -24,6 +26,9 @@ class LoginFragment : BaseFragment() {
 
     @Inject
     lateinit var vmFactory: AppViewModelsFactory
+
+    @Inject
+    lateinit var sp: AppSharedPreferences
 
     private lateinit var viewModel: LoginViewModel
     private lateinit var callbackManager: CallbackManager
@@ -79,6 +84,7 @@ class LoginFragment : BaseFragment() {
             .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult) {
                     handleFacebookAccessToken(loginResult.accessToken)
+                    logd("accessToke", loginResult.accessToken.token)
                 }
 
                 override fun onCancel() {
@@ -92,9 +98,8 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun handleFacebookAccessToken(facebookToken: AccessToken) {
-        /* val tempCode =
-             "AQCBl3j8rIkJdYsu-E0YU4QkY_xzn_akYkzWWd8EECwwZlLKGXN4F7byVPXaf3QWJOqhEi22FX0wKlX-pmruf1ucgwfZQD-QMVLisWM2ykak5CinU3Txun_cw-LDW0ZqVFp4BnSn8XQuLBpbW9rV3c3_oyX-EkNeLyZEUFNaGc114v76tVuOPfg75OneQzZ9BH752IEsgLbszrTt76SXBjK1Xak0xhOrBcEgTkfEE3btb1ZUeBoHTKDQR83f332WImEQ6XIlxIF-JzBLF1xo9SaHlGSb6RBecZCczuFkFFROSj39CnY6yHZ5srfnDQu431zJyYbDRjnA45HT7nfnstBP#_=_"
-         viewModel.loginFacebook(tempCode)*/
+        sp.setAuthKey(getString(R.string.temp_access_token))
+       // viewModel.loginFacebook(getString(R.string.temp_auth_code))
         Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.action_open_events)
     }
 

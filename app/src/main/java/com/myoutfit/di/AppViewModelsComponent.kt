@@ -1,5 +1,6 @@
 package com.myoutfit.di
 
+import com.myoutfit.modules.events.EventsViewModel
 import com.myoutfit.modules.login.LoginViewModel
 import dagger.Subcomponent
 
@@ -12,5 +13,7 @@ interface AppViewModelsComponent {
     }
 
     fun provideLoginViewModel(): LoginViewModel
+
+    fun provideEventsViewModel(): EventsViewModel
 
 }
