@@ -19,5 +19,13 @@
     <fragment
         android:id="@+id/eventsFragment"
         android:name="com.myoutfit.modules.events.EventsFragment"
-        android:label="EventsFragment" />
+        android:label="EventsFragment">
+        <action
+            android:id="@+id/action_logout"
+            app:destination="@id/navigation_login"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/activity_main_flow"
+            app:popUpToInclusive="true" />
+    </fragment>
+
 </navigation>

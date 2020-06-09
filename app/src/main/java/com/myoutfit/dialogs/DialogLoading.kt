@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.Window
 import com.myoutfit.R
 
-class DialogLoading (context: Context) : Dialog(context, R.style.DialogFitWidth) {
+class DialogLoading (context: Context) : Dialog(context, R.style.DialogFitWidth) { //todo del
 
 
     init {
@@ -16,7 +16,7 @@ class DialogLoading (context: Context) : Dialog(context, R.style.DialogFitWidth)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dialog_loading)
+        setContentView(R.layout.layout_loading)
         window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 }

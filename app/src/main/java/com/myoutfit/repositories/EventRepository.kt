@@ -1,17 +1,17 @@
 package com.myoutfit.repositories
 
-import com.myoutfit.R
 import com.myoutfit.api.EventApi
 import com.myoutfit.models.events.EventsResponse
 import com.myoutfit.models.network.NetworkState
 import com.myoutfit.utils.safeApiCall
+import okhttp3.ResponseBody
 import javax.inject.Inject
 
 class EventRepository @Inject constructor(private val eventApi: EventApi) {
 
     suspend fun getEvents(
         onSuccess: suspend (response: EventsResponse) -> Unit,
-        onError: suspend (Int) -> Unit,
+        onError: suspend (ResponseBody?) -> Unit,
         onNetworkError: (NetworkState) -> Unit
     ) = safeApiCall(
         call = {
@@ -21,7 +21,7 @@ class EventRepository @Inject constructor(private val eventApi: EventApi) {
 
             if (data != null)
                 onSuccess(data)
-            else onError(R.string.error_server_default)
+            else onError(response.errorBody())
         },
         errorString = NetworkState.NO_INTERNET_CONNECTION
     ) {

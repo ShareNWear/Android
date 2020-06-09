@@ -17,7 +17,9 @@ import com.myoutfit.base.BaseFragment
 import com.myoutfit.data.locale.sharedpreferences.AppSharedPreferences
 import com.myoutfit.di.AppViewModelsFactory
 import com.myoutfit.models.network.ApiRequestStatus
+import com.myoutfit.utils.extentions.gone
 import com.myoutfit.utils.extentions.logd
+import com.myoutfit.utils.extentions.show
 import com.myoutfit.utils.extentions.toastL
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
@@ -51,18 +53,22 @@ class LoginFragment : BaseFragment() {
 
     override fun initViewModel() {
         viewModel =
-            ViewModelProviders.of(requireActivity(), vmFactory).get(LoginViewModel::class.java)
+            ViewModelProviders.of(this, vmFactory).get(LoginViewModel::class.java)
 
         viewModel.requestStatusLiveData.observe(viewLifecycleOwner, Observer {
             when (it.status) {
-                ApiRequestStatus.RUNNING -> showLoading()
-                ApiRequestStatus.SUCCESSFUL -> hideLoading()
+                ApiRequestStatus.RUNNING -> {
+                    loadView.show()
+                }
+                ApiRequestStatus.SUCCESSFUL -> {
+                    loadView.gone()
+                }
                 ApiRequestStatus.FAILED -> {
                     toastL(getString(R.string.error_server_default))
-                    hideLoading()
+                    loadView.gone()
                 }
                 ApiRequestStatus.NO_INTERNET -> {
-                    hideLoading()
+                    loadView.gone()
                     toastL(getString(R.string.error_internet_connection))
                 }
             }
@@ -99,7 +105,7 @@ class LoginFragment : BaseFragment() {
 
     private fun handleFacebookAccessToken(facebookToken: AccessToken) {
         sp.setAuthKey(getString(R.string.temp_access_token))
-       // viewModel.loginFacebook(getString(R.string.temp_auth_code))
+        // viewModel.loginFacebook(getString(R.string.temp_auth_code))
         Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.action_open_events)
     }
 

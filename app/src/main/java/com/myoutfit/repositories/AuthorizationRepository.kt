@@ -6,6 +6,7 @@ import com.myoutfit.models.login.LoginModel
 import com.myoutfit.models.login.LoginResponse
 import com.myoutfit.models.network.NetworkState
 import com.myoutfit.utils.safeApiCall
+import okhttp3.ResponseBody
 import javax.inject.Inject
 
 class AuthorizationRepository @Inject constructor(private val authorizationApi: AuthorizationApi) {
@@ -13,7 +14,7 @@ class AuthorizationRepository @Inject constructor(private val authorizationApi: 
     suspend fun loginWithFacebook(
         facebookToken: String,
         onSuccess: suspend (response: LoginResponse) -> Unit,
-        onError: suspend (Int) -> Unit,
+        onError: suspend (ResponseBody?) -> Unit,
         onNetworkError: (NetworkState) -> Unit
     ) = safeApiCall(
         call = {
@@ -25,7 +26,7 @@ class AuthorizationRepository @Inject constructor(private val authorizationApi: 
 
             if (data != null)
                 onSuccess(data)
-            else onError(R.string.error_server_default)
+            else onError(response.errorBody())
         },
         errorString = NetworkState.NO_INTERNET_CONNECTION
     ) {
