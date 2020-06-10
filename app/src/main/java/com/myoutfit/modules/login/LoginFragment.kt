@@ -77,7 +77,7 @@ class LoginFragment : BaseFragment() {
         viewModel.authorizationLiveData.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) {
-                    Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.eventsFragment)
+                    Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.action_open_events)
                 }
             }
         })

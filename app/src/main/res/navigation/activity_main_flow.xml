@@ -26,6 +26,13 @@
             app:launchSingleTop="true"
             app:popUpTo="@+id/activity_main_flow"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_open_event_detail"
+            app:destination="@id/eventDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.myoutfit.modules.eventdetail.EventDetailFragment"
+        android:label="EventDetailFragment" />
 
 </navigation>

@@ -1,4 +1,4 @@
-package com.myoutfit.models.events.adapters
+package com.myoutfit.modules.events.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import com.myoutfit.R
 import com.myoutfit.models.events.EventModel
 import com.myoutfit.viewholders.event.EventViewHolder
 
-class EventAdapter : RecyclerView.Adapter<EventViewHolder>() {
+class EventAdapter(private val onEventClicked: (model: EventModel) -> Unit) : RecyclerView.Adapter<EventViewHolder>() {
 
     private val dataList = mutableListOf<EventModel>()
 
@@ -17,7 +17,7 @@ class EventAdapter : RecyclerView.Adapter<EventViewHolder>() {
         val layoutParams = view.layoutParams
         layoutParams.height = (parent.height * 0.3).toInt()
         view.layoutParams = layoutParams
-        return EventViewHolder(view)
+        return EventViewHolder(view, onEventClicked)
     }
 
     override fun getItemCount(): Int {

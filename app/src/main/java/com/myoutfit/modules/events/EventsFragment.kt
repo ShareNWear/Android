@@ -11,8 +11,9 @@ import com.myoutfit.R
 import com.myoutfit.base.BaseFragment
 import com.myoutfit.decorators.EventSpaceDecorator
 import com.myoutfit.di.AppViewModelsFactory
-import com.myoutfit.models.events.adapters.EventAdapter
+import com.myoutfit.modules.events.adapters.EventAdapter
 import com.myoutfit.models.network.ApiRequestStatus
+import com.myoutfit.modules.eventdetail.EventDetailFragment.Companion.EXTRA_EVENT_ID
 import com.myoutfit.utils.extentions.gone
 import com.myoutfit.utils.extentions.show
 import com.myoutfit.utils.extentions.toastL
@@ -66,7 +67,15 @@ class EventsFragment : BaseFragment() {
     private fun initRecycle() {
         with(rvEvents) {
             layoutManager = LinearLayoutManager(context)
-            adapter = EventAdapter()
+            adapter = EventAdapter { event ->
+                event.id?.let { eventId ->
+                    Navigation.findNavController(requireActivity(), R.id.nav_host)
+                        .navigate(R.id.action_open_event_detail,
+                            Bundle().apply {
+                                putInt(EXTRA_EVENT_ID, eventId)
+                            })
+                }
+            }
             val margin = resources.getDimensionPixelSize(R.dimen.margin_very_small)
             addItemDecoration(EventSpaceDecorator(margin))
         }

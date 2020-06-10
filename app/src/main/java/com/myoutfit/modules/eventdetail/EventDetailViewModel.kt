@@ -1,25 +1,25 @@
-package com.myoutfit.modules.events
+package com.myoutfit.modules.eventdetail
 
 import androidx.lifecycle.MutableLiveData
 import com.myoutfit.base.BaseViewModel
-import com.myoutfit.models.events.EventModel
+import com.myoutfit.models.events.EventDetailResponse
 import com.myoutfit.models.network.NetworkState
 import com.myoutfit.repositories.EventRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class EventsViewModel @Inject constructor(private val eventRepository: EventRepository) : BaseViewModel() {
+class EventDetailViewModel @Inject constructor(private val eventRepository: EventRepository) : BaseViewModel() {
 
     val requestStatusLiveData by lazy { MutableLiveData<NetworkState>() }
 
-    val eventsLiveData by lazy { MutableLiveData<List<EventModel>>() }
+    val eventLiveData by lazy { MutableLiveData<EventDetailResponse>() }
 
-    fun getEvents() {
+    fun getEventData(id: Int) {
         requestStatusLiveData.postValue(NetworkState.LOADING)
         launch {
-            eventRepository.getEvents({
+            eventRepository.getEventDetail(id, {
                 requestStatusLiveData.postValue(NetworkState.SUCCESSFUL)
-                eventsLiveData.postValue(it.data)
+                eventLiveData.postValue(it)
             }, {
                 requestStatusLiveData.postValue(NetworkState.FAILED)
             }, {

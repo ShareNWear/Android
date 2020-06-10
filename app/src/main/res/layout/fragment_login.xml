@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/tvLoginTitle"
-        style="@style/MarcellusRegularFont"
+        style="@style/BaseTextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/event_outfit"
@@ -20,18 +20,13 @@
 
     <TextView
         android:id="@+id/btnLogin"
-        style="@style/MarcellusRegularFont"
+        style="@style/BaseButtonStyle"
         android:layout_width="0dp"
         android:layout_height="@dimen/button_height"
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_small"
         android:layout_marginBottom="@dimen/margin_medium"
-        android:background="@color/colorPrimary"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
         android:text="@string/sign_in_with_facebook"
-        android:textColor="@color/colorWhite"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
