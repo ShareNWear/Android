@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.facebook.login.LoginManager
 import com.myoutfit.R
 import com.myoutfit.base.BaseFragment
+import com.myoutfit.data.locale.sharedpreferences.AppSharedPreferences
 import com.myoutfit.decorators.EventSpaceDecorator
 import com.myoutfit.di.AppViewModelsFactory
 import com.myoutfit.modules.events.adapters.EventAdapter
@@ -24,6 +25,9 @@ class EventsFragment : BaseFragment() {
 
     @Inject
     lateinit var vmFactory: AppViewModelsFactory
+
+    @Inject
+    lateinit var sp: AppSharedPreferences
 
     private lateinit var viewModel: EventsViewModel
 
@@ -61,7 +65,9 @@ class EventsFragment : BaseFragment() {
             }
         })
 
-        viewModel.getEvents()
+        /*if data empty - show loader*/
+        val setLoader = viewModel.eventsLiveData.value.isNullOrEmpty()
+        viewModel.getEvents(setLoader)
     }
 
     private fun initRecycle() {
@@ -83,8 +89,13 @@ class EventsFragment : BaseFragment() {
 
     override fun setListeners() {
         btnLogout.setOnClickListener {
-            LoginManager.getInstance().logOut()
-            Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.action_logout)
+            logout()
         }
+    }
+
+    private fun logout() {
+        sp.clearAuthKey()
+        LoginManager.getInstance().logOut()
+        Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.action_logout)
     }
 }

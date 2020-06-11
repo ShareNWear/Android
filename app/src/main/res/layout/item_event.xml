@@ -43,7 +43,6 @@
         android:layout_marginEnd="@dimen/margin_average"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="@color/colorWhite"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/tvDate"
         app:layout_constraintEnd_toEndOf="parent"

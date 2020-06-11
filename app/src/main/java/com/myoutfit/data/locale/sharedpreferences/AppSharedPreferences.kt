@@ -4,4 +4,5 @@ interface AppSharedPreferences {
 
     fun setAuthKey(key: String?)
     fun getAuthKey(): String
+    fun clearAuthKey()
 }

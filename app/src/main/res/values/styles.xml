@@ -29,7 +29,7 @@
     </style>
 
     <style name="BaseTextViewStyle" parent="MarcellusRegularFont">
-
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
     <style name="BaseButtonStyle" parent="MarcellusRegularFont">

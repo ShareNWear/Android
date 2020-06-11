@@ -41,6 +41,7 @@ class LoginFragment : BaseFragment() {
 
     override fun onViewReady(inflatedView: View, args: Bundle?) {
         initFacebookLogin()
+        checkAccessCode()
     }
 
     override fun setListeners() {
@@ -81,6 +82,14 @@ class LoginFragment : BaseFragment() {
                 }
             }
         })
+    }
+
+    private fun checkAccessCode() {
+        if (sp.getAuthKey().isEmpty()) {
+            btnLogin.show()
+        } else {
+            Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.action_open_events)
+        }
     }
 
     private fun initFacebookLogin() {

@@ -5,60 +5,112 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/ivEvent"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="26dp"
-        android:contentDescription="@null"
-        android:scaleType="centerCrop"
-        app:layout_constraintHeight_percent="0.3"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/backgrounds/scenic" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="26dp">
 
-    <TextView
-        android:id="@+id/tvDate"
-        style="@style/BaseTextViewStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="@dimen/margin_average"
-        android:layout_marginEnd="@dimen/margin_average"
-        android:lines="1"
-        android:textColor="@color/colorGrayText"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@id/btnMyOutfit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivEvent"
-        tools:text="Mon DD * " />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvLocation"
-        style="@style/BaseTextViewStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="@dimen/margin_average"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textColor="@color/colorGrayText"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@id/btnMyOutfit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDate"
-        tools:text="Event location" />
+            <ImageView
+                android:id="@+id/ivEvent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="412:187"
+                app:layout_constraintHeight_percent="0.3"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
 
-    <TextView
-        android:id="@+id/btnMyOutfit"
-        style="@style/BaseButtonStyle"
-        android:layout_width="108dp"
-        android:layout_height="40dp"
-        android:layout_margin="@dimen/margin_average"
-        android:text="@string/my_outfit"
-        android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivEvent" />
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@null"
+                android:focusable="true"
+                android:paddingStart="17dp"
+                android:paddingTop="11dp"
+                android:paddingEnd="@dimen/margin_very_small"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:src="@drawable/ic_back_arrow_white"
+                app:layout_constraintStart_toStartOf="@id/ivEvent"
+                app:layout_constraintTop_toTopOf="@id/ivEvent" />
 
+            <TextView
+                android:id="@+id/tvEventName"
+                style="@style/BaseTextViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/ivEvent"
+                app:layout_constraintEnd_toEndOf="@id/ivEvent"
+                app:layout_constraintStart_toStartOf="@id/ivEvent"
+                tools:text="Event name" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                style="@style/BaseTextViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="@dimen/margin_average"
+                android:layout_marginEnd="@dimen/margin_average"
+                android:lines="1"
+                android:textColor="@color/colorGrayText"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@id/btnMyOutfit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivEvent"
+                tools:text="Mon DD * " />
+
+            <TextView
+                android:id="@+id/tvLocation"
+                style="@style/BaseTextViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="@dimen/margin_average"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/colorGrayText"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@id/btnMyOutfit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDate"
+                tools:text="Event location" />
+
+            <TextView
+                android:id="@+id/btnMyOutfit"
+                style="@style/BaseButtonStyle"
+                android:layout_width="108dp"
+                android:layout_height="40dp"
+                android:layout_margin="@dimen/margin_average"
+                android:text="@string/my_outfit"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivEvent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvOutfit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="58dp"
+                android:overScrollMode="never"
+                android:padding="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnMyOutfit" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <include
         android:id="@+id/loadView"

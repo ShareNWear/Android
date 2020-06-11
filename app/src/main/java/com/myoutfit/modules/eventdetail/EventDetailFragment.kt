@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
 import com.myoutfit.R
 import com.myoutfit.base.BaseFragment
 import com.myoutfit.di.AppViewModelsFactory
 import com.myoutfit.models.events.EventDetailResponse
 import com.myoutfit.models.network.ApiRequestStatus
+import com.myoutfit.modules.eventdetail.adapters.OutfitImagesAdapter
 import com.myoutfit.utils.extentions.*
 import kotlinx.android.synthetic.main.fragment_event_detail.*
 import javax.inject.Inject
@@ -27,6 +30,7 @@ class EventDetailFragment : BaseFragment() {
     override fun layoutId(): Int = R.layout.fragment_event_detail
 
     override fun onViewReady(inflatedView: View, args: Bundle?) {
+        initRecycle()
     }
 
     override fun initViewModel() {
@@ -64,6 +68,9 @@ class EventDetailFragment : BaseFragment() {
     }
 
     override fun setListeners() {
+        btnBack.setOnClickListener {
+            Navigation.findNavController(requireActivity(), R.id.nav_host).popBackStack()
+        }
     }
 
     private fun getEventId(): Int? {
@@ -72,7 +79,20 @@ class EventDetailFragment : BaseFragment() {
 
     private fun fillView(data: EventDetailResponse) {
         ivEvent.loadWithGlide(data.coverSource)
+        tvEventName.text = data.name
         tvLocation.text = data.place?.name
         tvDate.text = data.startTime?.toStringDate()
+        data.images?.let {
+            (rvOutfit.adapter as? OutfitImagesAdapter)?.setData(data.images)
+        }
+    }
+
+    private fun initRecycle() {
+        with(rvOutfit) {
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = OutfitImagesAdapter { image ->
+                toastSh(image.name.toString())
+            }
+        }
     }
 }

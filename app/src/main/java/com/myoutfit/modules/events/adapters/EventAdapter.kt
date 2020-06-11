@@ -2,6 +2,7 @@ package com.myoutfit.modules.events.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.myoutfit.R
 import com.myoutfit.models.events.EventModel
@@ -29,8 +30,38 @@ class EventAdapter(private val onEventClicked: (model: EventModel) -> Unit) : Re
     }
 
     fun setData(data: List<EventModel>) {
-        dataList.clear()
-        dataList.addAll(data)
-        notifyDataSetChanged()
+        if (dataList.isEmpty()) {
+            dataList.clear()
+            dataList.addAll(data)
+            notifyItemRangeInserted(0, dataList.size)
+        } else {
+            val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+
+                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                    return dataList[oldItemPosition].id == data[newItemPosition].id
+                }
+
+                override fun areContentsTheSame(
+                    oldItemPosition: Int,
+                    newItemPosition: Int
+                ): Boolean {
+                    val new = data[newItemPosition]
+                    val old = dataList[oldItemPosition]
+                    return old.id == new.id &&
+                            old.startTime == new.startTime &&
+                            old.name == new.name &&
+                            old.facebookId == new.facebookId &&
+                            old.coverSource == new.coverSource
+                }
+
+                override fun getOldListSize() = dataList.size
+
+                override fun getNewListSize() = data.size
+            })
+
+            dataList.clear()
+            dataList.addAll(data)
+            diff.dispatchUpdatesTo(this)
+        }
     }
 }

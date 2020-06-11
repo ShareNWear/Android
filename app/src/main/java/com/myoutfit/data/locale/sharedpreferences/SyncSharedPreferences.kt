@@ -28,4 +28,8 @@ class SyncSharedPreferences(context: Context, private val gson: Gson) : AppShare
 
     override fun getAuthKey(): String = sharedPreferences.getString(KEY_AUTH_KEY, "") ?: ""
 
+    override fun clearAuthKey() {
+        setAuthKey(null)
+    }
+
 }
