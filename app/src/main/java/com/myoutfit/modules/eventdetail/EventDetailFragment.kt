@@ -2,6 +2,7 @@ package com.myoutfit.modules.eventdetail
 
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -9,9 +10,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.myoutfit.R
 import com.myoutfit.base.BaseFragment
 import com.myoutfit.di.AppViewModelsFactory
+import com.myoutfit.models.ImageModel
 import com.myoutfit.models.events.EventDetailResponse
 import com.myoutfit.models.network.ApiRequestStatus
 import com.myoutfit.modules.eventdetail.adapters.OutfitImagesAdapter
+import com.myoutfit.modules.fullscreen.FullScreenImageFragment
 import com.myoutfit.utils.extentions.*
 import kotlinx.android.synthetic.main.fragment_event_detail.*
 import javax.inject.Inject
@@ -62,8 +65,9 @@ class EventDetailFragment : BaseFragment() {
             }
         })
 
+        val showLoader = viewModel.eventLiveData.value == null
         getEventId()?.let {
-            viewModel.getEventData(it)
+            viewModel.getEventData(it, showLoader)
         }
     }
 
@@ -78,6 +82,7 @@ class EventDetailFragment : BaseFragment() {
     }
 
     private fun fillView(data: EventDetailResponse) {
+        btnMyOutfit.show()
         ivEvent.loadWithGlide(data.coverSource)
         tvEventName.text = data.name
         tvLocation.text = data.place?.name
@@ -91,8 +96,18 @@ class EventDetailFragment : BaseFragment() {
         with(rvOutfit) {
             layoutManager = GridLayoutManager(context, 2)
             adapter = OutfitImagesAdapter { image ->
-                toastSh(image.name.toString())
+                showFullScreen(image)
             }
         }
+    }
+
+    private fun showFullScreen(image: ImageModel) {
+        activity?.findViewById<FrameLayout>(R.id.fragmentContainer)?.showWithAnimationAlpha()
+        val fragment = FullScreenImageFragment.newInstance(image)
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.add(R.id.fragmentContainer, fragment, FullScreenImageFragment::class.java.simpleName)
+            ?.addToBackStack(FullScreenImageFragment::class.java.simpleName)
+            ?.commit()
     }
 }

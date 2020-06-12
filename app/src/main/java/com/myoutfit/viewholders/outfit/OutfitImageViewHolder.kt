@@ -17,13 +17,4 @@ class OutfitImageViewHolder(view: View, private val onImageClicked: (model: Imag
             onImageClicked(item)
         }
     }
-
-    //temporary
-    fun bind(item: ImageModel, name: String) {
-        itemView.ivOutfit.loadWithGlide(item.path, R.drawable.placeholder_friend_blur)
-        itemView.tvName.text = name
-        itemView.setOnClickListener {
-            onImageClicked(item)
-        }
-    }
 }

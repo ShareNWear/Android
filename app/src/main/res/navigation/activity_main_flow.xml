@@ -33,6 +33,14 @@
     <fragment
         android:id="@+id/eventDetailFragment"
         android:name="com.myoutfit.modules.eventdetail.EventDetailFragment"
-        android:label="EventDetailFragment" />
+        android:label="EventDetailFragment">
+        <action
+            android:id="@+id/action_fullScreenImage"
+            app:destination="@id/fullScreenImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullScreenImageFragment"
+        android:name="com.myoutfit.modules.fullscreen.FullScreenImageFragment"
+        android:label="FullScreenImageFragment" />
 
 </navigation>

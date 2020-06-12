@@ -14,8 +14,9 @@ class EventDetailViewModel @Inject constructor(private val eventRepository: Even
 
     val eventLiveData by lazy { MutableLiveData<EventDetailResponse>() }
 
-    fun getEventData(id: Int) {
-        requestStatusLiveData.postValue(NetworkState.LOADING)
+    fun getEventData(id: Int, showLoader: Boolean) {
+        if (showLoader)
+            requestStatusLiveData.postValue(NetworkState.LOADING)
         launch {
             eventRepository.getEventDetail(id, {
                 requestStatusLiveData.postValue(NetworkState.SUCCESSFUL)
