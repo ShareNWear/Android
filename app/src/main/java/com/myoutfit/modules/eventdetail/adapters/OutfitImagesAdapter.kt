@@ -19,7 +19,7 @@ class OutfitImagesAdapter(private val onImageClicked: (model: ImageModel) -> Uni
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OutfitImageViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.item_outfit_image, parent, false)
+        val view = layoutInflater.inflate(R.layout.item_user_outfit, parent, false)
         return OutfitImageViewHolder(view, onImageClicked)
     }
 

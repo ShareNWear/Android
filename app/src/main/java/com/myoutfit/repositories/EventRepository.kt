@@ -3,6 +3,7 @@ package com.myoutfit.repositories
 import com.myoutfit.api.EventApi
 import com.myoutfit.models.events.EventDetailResponse
 import com.myoutfit.models.events.EventsResponse
+import com.myoutfit.models.image.MyImagesResponse
 import com.myoutfit.models.network.NetworkState
 import com.myoutfit.utils.safeApiCall
 import okhttp3.ResponseBody
@@ -37,6 +38,26 @@ class EventRepository @Inject constructor(private val eventApi: EventApi) {
     ) = safeApiCall(
         call = {
             val response = eventApi.getEventDetailAsync(id).await()
+
+            val data = response.body()
+
+            if (data != null)
+                onSuccess(data)
+            else onError(response.errorBody())
+        },
+        errorString = NetworkState.NO_INTERNET_CONNECTION
+    ) {
+        onNetworkError(it)
+    }
+
+    suspend fun getMyImages(
+        eventId: Int,
+        onSuccess: suspend (response: MyImagesResponse) -> Unit,
+        onError: suspend (ResponseBody?) -> Unit,
+        onNetworkError: (NetworkState) -> Unit
+    ) = safeApiCall(
+        call = {
+            val response = eventApi.getMyImagesAsync(eventId).await()
 
             val data = response.body()
 

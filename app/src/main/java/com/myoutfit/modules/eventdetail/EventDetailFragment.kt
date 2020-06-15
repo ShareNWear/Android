@@ -75,6 +75,14 @@ class EventDetailFragment : BaseFragment() {
         btnBack.setOnClickListener {
             Navigation.findNavController(requireActivity(), R.id.nav_host).popBackStack()
         }
+        btnMyOutfit.setOnClickListener {
+            Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.action_open_myoutfit,
+                Bundle().apply {
+                    getEventId()?.let {
+                        putInt(EXTRA_EVENT_ID, it)
+                    }
+                })
+        }
     }
 
     private fun getEventId(): Int? {

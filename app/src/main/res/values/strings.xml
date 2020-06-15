@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Outfit</string>
+    <string name="app_name">ShareNWear</string>
 
     //Facebook login credentials
     <string name="facebook_app_id">160161902046286</string>
@@ -9,14 +9,14 @@
     <string name="title_activity_main">MainActivity</string>
 
     <string name="loading">Loading</string>
-    <string name="event_outfit">Event Outfit</string>
+    <string name="event_outfit">Share N Wear</string>
     <string name="sign_in_with_facebook">Sign In with Facebook</string>
     <string name="error_server_default">Server error! Please try again</string>
     <string name="error_fb_login">An error occurred while logging in to facebook. Please try again</string>
     <string name="error_internet_connection">Please make sure your Wi-Fi or Cellular data is turned
         on, then try again.
     </string>
-    <string name="temp_access_token">eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNzAzZDUwY2ExZTFkNmE5YmNmMzRkNWI3NDA0MDIxY2ZjNjk4NjQwODcyOTJlZmI2NTczOTNmNjUzNzcyNTcyY2QxMGU1OGY0M2E0NDY0NTMiLCJpYXQiOjE1OTE5NjIwOTQsIm5iZiI6MTU5MTk2MjA5NCwiZXhwIjoxNTkxOTY1Njk0LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.HLnwEMpqRT9awKwAtUJNxkqugHAM417cX6vuTX9c8bGO0-pUXx-vIc-JfXBjRm2NxG6zBqlLiKp78eKNX2RYzTmwwwrm3eC-gyURAWxpfD2V1sbKhXLvNiA2jDQKE1UdOyLiG7j0Fo1gzdlXC48wFiyLUW9aS7xA70j2sxbw-NNPxOnoABbOw5NUgDI_TocMUP28fDwc5T_ibnE0NM95unStx0pFOv7Y3k9x_AVFnzmL0gppN-sXUqs_1B8O6cJHbHh1MpJEiOeB8mCV3GCudzAKEu9hW5GF99qPHXMP_QqWSwj48v3g5a4KxNrQegGbsetxEsXl1LAK2MBgDYg3DHetZjuJ55-4Gw57L765da-mrtEia1RZasHVhwnn_Rz_s7EY-Sxd9wCTxpfFRfmUpK3x2LqJui8ypzPpsLtiul40bcGpNevVkm4UdjZSY2Z4MlLzVP1VPRMfcDapM-WsOqM34x5isICdwXj7cHXx5h55Nd_4QagdNttOAS9AR76j3ZfTE9qDmgaR1Q7KCYuPVNiUEyW7KhAWerm3XXNjC-fAPEfX84Ae8K-OPclBP1B3FmV8FiMmWg7ATkr47mAgWSDHOHwAAg-Mf4j30ZKUI6fS4nRidLXnvTGsdw6vMu8G1NUuKSiEKomfY8LprKHQ44edNVSi8VkhMRdOEoFoq_0</string>
+    <string name="temp_access_token">eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNTZjMDgzMDhlYzMxZjMwNGQzMmIyZmM2MWY5NTU0YWFjZDY5MmNkMDBjNTFjYTRkMmEwOWE2Nzk3MmZiNWI3NTc1NTdjNDUwNmZiZjIzZmYiLCJpYXQiOjE1OTIyMjAyNTksIm5iZiI6MTU5MjIyMDI1OSwiZXhwIjoxNTkyMjIzODU5LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.qmgAI1bt1ROp8yHKSxlAPsIA8kUdbtg-ok_lB45nmZFv069Yz_m8nBX_5kqK9Y4BQ93dvbqotzGRLOPVw5wgSSLqhHNKimmXO8EpbXAzC3yh-Ah6j3SMFt3kEKA8AKS0ZV7p0zUy9HhG_WcKBkvWld73Uom_RQbCFo6WJ8fW_rnI48IA7Hx0kkY5QMMXntGCXhOXB-aCyPuDn1Aqc6aDxdjMSGP1eUIMAMn9-mhM8pJe6FJn4Uf_8TRcy7v4hPiw4Q9u90bypop4GcCf6CKRyMZ5qVsuthA4Bhq77v4mqHnNHbNS8OY495OVBH2iYcbDDrdRdYPL9QXHkI5XKsDAnL1GSR9fU4a_zNi9E0-OGQ5Db367rnwLe6XdcLt2U_IoG2ThhYqjb4qNWAOLER9M8Rx7JEA5yufwn81lwhhUj7xGjOv3ZDgk0UJCCL03RS4K4uMYeiL_q2mY1IljKWXlyj2Diw9vhu-SsRbPdFXR9UlawSFFS6FpORoBB4xBkHRuNyUnoxUAIXLehUwTVVUmM1LLlzsOPXRwzEwHhf73SymS7BNDtwZoOBE6EtLUzzbD3kl9GEuwOI3vOa8MunOTJMZWBd5N0cydm_pCHDXchEuug1lVXGuwwpNaEAbxtjBrt20Clb4AlCo5XXxDHnDNZAXb-OPfSwuco0IHCeBf4IU</string>
     <string name="temp_auth_code">AQDQDZ_ozOAl-WwY6D6Bfn4jiWmIy99crahVxX8oavx2tteMMTtC1kWhOficp6J57ISKHLLxeX-Anf0HFyQ13YcgE4Nwi9qevuhreaOrf9uVBJF00IqlbBsghENzEIvH41GaKugpGxDVLL6q_cHXRsaY51mX3ZQTHjG_OFk-ZjHmuiAYIw4wHu-B7NrnEOgK9TYROSGVS4Oa6WaC4Yz-YuNzQOcIw50SOyvfHU1UmIomGcjylsytftP_FSsVQzjlQ4qWOJTfOyN3SzYytKgEY-QZYSiK8YZN8PqyPqi0nIRSMCfTIYFQ2HIuU0ZAbe26rESg2ui2oLl-MynqNHrOhwoI#_=_</string>
     <string name="my_outfit">My outfit</string>
     <string name="transition_image">transition_image</string>

@@ -37,10 +37,18 @@
         <action
             android:id="@+id/action_fullScreenImage"
             app:destination="@id/fullScreenImageFragment" />
+        <action
+            android:id="@+id/action_open_myoutfit"
+            app:destination="@id/myOutfirFragment" />
     </fragment>
     <fragment
         android:id="@+id/fullScreenImageFragment"
         android:name="com.myoutfit.modules.fullscreen.FullScreenImageFragment"
-        android:label="FullScreenImageFragment" />
+        android:label="FullScreenImageFragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/myOutfirFragment"
+        android:name="com.myoutfit.modules.myoutfit.MyOutfitFragment"
+        android:label="MyOutfirFragment" />
 
 </navigation>

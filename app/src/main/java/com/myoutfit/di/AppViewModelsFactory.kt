@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.myoutfit.modules.eventdetail.EventDetailViewModel
 import com.myoutfit.modules.events.EventsViewModel
 import com.myoutfit.modules.login.LoginViewModel
+import com.myoutfit.modules.myoutfit.MyOutfitViewModel
 import java.util.concurrent.Callable
 
 class AppViewModelsFactory(private val appViewModelsComponent: AppViewModelsComponent) :
@@ -14,5 +15,6 @@ class AppViewModelsFactory(private val appViewModelsComponent: AppViewModelsComp
         creators[LoginViewModel::class.java] = Callable { appViewModelsComponent.provideLoginViewModel() }
         creators[EventsViewModel::class.java] = Callable { appViewModelsComponent.provideEventsViewModel() }
         creators[EventDetailViewModel::class.java] = Callable { appViewModelsComponent.provideEventDetailViewModel() }
+        creators[MyOutfitViewModel::class.java] = Callable { appViewModelsComponent.provideMyOutfitViewModel() }
     }
 }

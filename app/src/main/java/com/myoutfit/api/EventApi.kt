@@ -2,6 +2,7 @@ package com.myoutfit.api
 
 import com.myoutfit.models.events.EventDetailResponse
 import com.myoutfit.models.events.EventsResponse
+import com.myoutfit.models.image.MyImagesResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
@@ -16,4 +17,9 @@ interface EventApi {
     fun getEventDetailAsync(
         @Path("id") id: Int
     ): Deferred<Response<EventDetailResponse>>
+
+    @GET("api/user/events/{id}/my-images")
+    fun getMyImagesAsync(
+        @Path("id") id: Int
+    ): Deferred<Response<MyImagesResponse>>
 }

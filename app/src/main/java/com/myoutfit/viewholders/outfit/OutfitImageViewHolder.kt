@@ -5,7 +5,7 @@ import com.myoutfit.R
 import com.myoutfit.models.ImageModel
 import com.myoutfit.utils.extentions.loadWithGlide
 import com.myoutfit.viewholders.BaseViewHolder
-import kotlinx.android.synthetic.main.item_outfit_image.view.*
+import kotlinx.android.synthetic.main.item_user_outfit.view.*
 
 class OutfitImageViewHolder(view: View, private val onImageClicked: (model: ImageModel) -> Unit) :
     BaseViewHolder<ImageModel>(view) {
