@@ -2,17 +2,17 @@ package com.myoutfit.viewholders.outfit
 
 import android.view.View
 import com.myoutfit.R
-import com.myoutfit.models.ImageModel
+import com.myoutfit.models.user.UserModel
 import com.myoutfit.utils.extentions.loadWithGlide
 import com.myoutfit.viewholders.BaseViewHolder
 import kotlinx.android.synthetic.main.item_user_outfit.view.*
 
-class OutfitImageViewHolder(view: View, private val onImageClicked: (model: ImageModel) -> Unit) :
-    BaseViewHolder<ImageModel>(view) {
+class OutfitImageViewHolder(view: View, private val onImageClicked: (model: UserModel) -> Unit) :
+    BaseViewHolder<UserModel>(view) {
 
-    override fun bind(item: ImageModel) {
-        itemView.ivOutfit.loadWithGlide(item.path, R.drawable.placeholder_friend_blur)
-        itemView.tvName.text = item.user?.name
+    override fun bind(item: UserModel) {
+        itemView.ivOutfit.loadWithGlide(item.images?.getOrNull(0)?.path, R.drawable.placeholder_friend_blur)
+        itemView.tvName.text = item.name
         itemView.setOnClickListener {
             onImageClicked(item)
         }

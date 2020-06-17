@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.myoutfit.R
-import com.myoutfit.models.ImageModel
+import com.myoutfit.models.user.UserModel
 import com.myoutfit.viewholders.outfit.OutfitImageViewHolder
 
-class OutfitImagesAdapter(private val onImageClicked: (model: ImageModel) -> Unit) :
+class OutfitImagesAdapter(private val onImageClicked: (model: UserModel) -> Unit) :
     RecyclerView.Adapter<OutfitImageViewHolder>() {
 
-    private val dataList = mutableListOf<ImageModel>()
+    private val dataList = mutableListOf<UserModel>()
 
-    /*temp fake names*/
-    private val tempNames =
-        listOf("Martijn Dragonjer", "Cvita Doleschall", "Jordanna Kitchener", "Gopichand Sana", "Vlada Maslyak")
+//    /*temp fake names*/
+//    private val tempNames =
+//        listOf("Martijn Dragonjer", "Cvita Doleschall", "Jordanna Kitchener", "Gopichand Sana", "Vlada Maslyak")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OutfitImageViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -31,11 +31,7 @@ class OutfitImagesAdapter(private val onImageClicked: (model: ImageModel) -> Uni
         holder.bind(dataList[position])
     }
 
-    fun setData(data: List<ImageModel>) {
-
-        data.mapIndexed { index, imageModel ->
-            imageModel.user?.name = tempNames[index]
-        }
+    fun setData(data: List<UserModel>) {
 
         if (dataList.isEmpty()) {
             dataList.clear()
@@ -55,10 +51,9 @@ class OutfitImagesAdapter(private val onImageClicked: (model: ImageModel) -> Uni
                     val new = data[newItemPosition]
                     val old = dataList[oldItemPosition]
                     return old.id == new.id &&
-                            old.mimeType == new.mimeType &&
-                            old.name == new.name &&
-                            old.user?.id == new.user?.id &&
-                            old.user?.name == new.user?.name
+                            old.logoPath == new.logoPath &&
+                            old.name == new.name/* &&
+                            old.images == new.images*/
                 }
 
                 override fun getOldListSize() = dataList.size

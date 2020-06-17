@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.myoutfit.R
 import com.myoutfit.base.BaseFragment
-import com.myoutfit.models.ImageModel
+import com.myoutfit.models.user.UserModel
 import com.myoutfit.utils.extentions.loadWithGlide
 import com.myoutfit.utils.extentions.loadWithGlideCircleCrop
 import kotlinx.android.synthetic.main.fragment_full_screen_image.*
@@ -15,11 +15,11 @@ class FullScreenImageFragment : BaseFragment() {
         const val EXT_NAME = "ext_name"
         const val EXT_FRIEND_IMAGE = "ext_friend_name"
 
-        fun newInstance(image: ImageModel) = FullScreenImageFragment().apply {
+        fun newInstance(user: UserModel) = FullScreenImageFragment().apply {
             val bundle = Bundle()
-            bundle.putString(EXT_OUTFIT_IMAGE, image.path)
-            bundle.putString(EXT_FRIEND_IMAGE, image.user?.logoPath)
-            bundle.putString(EXT_NAME, image.user?.name)
+            bundle.putString(EXT_OUTFIT_IMAGE, user.images?.getOrNull(0)?.path)
+            bundle.putString(EXT_FRIEND_IMAGE, user.logoPath)
+            bundle.putString(EXT_NAME, user.name)
             this.arguments = bundle
         }
     }

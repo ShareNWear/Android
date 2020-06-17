@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.myoutfit.R
 import com.myoutfit.base.BaseFragment
 import com.myoutfit.di.AppViewModelsFactory
-import com.myoutfit.models.ImageModel
 import com.myoutfit.models.events.EventDetailResponse
 import com.myoutfit.models.network.ApiRequestStatus
+import com.myoutfit.models.user.UserModel
 import com.myoutfit.modules.eventdetail.adapters.OutfitImagesAdapter
 import com.myoutfit.modules.fullscreen.FullScreenImageFragment
 import com.myoutfit.utils.extentions.*
@@ -95,21 +95,21 @@ class EventDetailFragment : BaseFragment() {
         tvEventName.text = data.name
         tvLocation.text = data.place?.name
         tvDate.text = data.startTime?.toStringDate()
-        data.images?.let {
-            (rvOutfit.adapter as? OutfitImagesAdapter)?.setData(data.images)
+        data.users?.let {
+            (rvOutfit.adapter as? OutfitImagesAdapter)?.setData(data.users)
         }
     }
 
     private fun initRecycle() {
         with(rvOutfit) {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = OutfitImagesAdapter { image ->
-                showFullScreen(image)
+            adapter = OutfitImagesAdapter { user ->
+                showFullScreen(user)
             }
         }
     }
 
-    private fun showFullScreen(image: ImageModel) {
+    private fun showFullScreen(image: UserModel) {
         activity?.findViewById<FrameLayout>(R.id.fragmentContainer)?.showWithAnimationAlpha()
         val fragment = FullScreenImageFragment.newInstance(image)
         activity?.supportFragmentManager
