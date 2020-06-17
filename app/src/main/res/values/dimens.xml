@@ -12,4 +12,7 @@
 
     <dimen name="button_height">72dp</dimen>
 
+    <dimen name="viewpager_next_item_visible">14dp</dimen>
+    <dimen name="viewpager_current_item_horizontal_margin">26dp</dimen>
+
 </resources>

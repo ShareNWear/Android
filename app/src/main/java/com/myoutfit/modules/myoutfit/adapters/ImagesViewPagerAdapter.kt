@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.myoutfit.R
+import com.myoutfit.models.ImageModel
 import com.myoutfit.viewholders.image.ImageViewHolder
 
 class ImagesViewPagerAdapter : RecyclerView.Adapter<ImageViewHolder>() {
 
-    private val dataList = mutableListOf<String>()
+    private val dataList = mutableListOf<ImageModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -22,5 +23,11 @@ class ImagesViewPagerAdapter : RecyclerView.Adapter<ImageViewHolder>() {
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         holder.bind(dataList[position])
+    }
+
+    fun setData(data: List<ImageModel>) {
+        dataList.clear()
+        dataList.addAll(data)
+        notifyDataSetChanged()
     }
 }

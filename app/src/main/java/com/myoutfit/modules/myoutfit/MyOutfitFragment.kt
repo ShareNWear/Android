@@ -5,11 +5,14 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.viewpager2.widget.ViewPager2
 import com.myoutfit.R
 import com.myoutfit.base.BaseFragment
+import com.myoutfit.decorators.HorizontalMarginItemDecoration
 import com.myoutfit.di.AppViewModelsFactory
 import com.myoutfit.models.network.ApiRequestStatus
 import com.myoutfit.modules.eventdetail.EventDetailFragment.Companion.EXTRA_EVENT_ID
+import com.myoutfit.modules.myoutfit.adapters.ImagesViewPagerAdapter
 import com.myoutfit.utils.extentions.goneWithAnimationAlpha
 import com.myoutfit.utils.extentions.showWithAnimationAlpha
 import com.myoutfit.utils.extentions.toastL
@@ -26,7 +29,7 @@ class MyOutfitFragment : BaseFragment() {
     override fun layoutId(): Int = R.layout.fragment_myoutfit
 
     override fun onViewReady(inflatedView: View, args: Bundle?) {
-
+        initViewPager()
     }
 
     override fun initViewModel() {
@@ -52,6 +55,12 @@ class MyOutfitFragment : BaseFragment() {
             }
         })
 
+        viewModel.myImagesLiveData.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                (vpImages.adapter as? ImagesViewPagerAdapter)?.setData(it)
+            }
+        })
+
         getEventId()?.let {
             viewModel.getMyImages(it)
         }
@@ -65,5 +74,26 @@ class MyOutfitFragment : BaseFragment() {
 
     private fun getEventId(): Int? {
         return arguments?.getInt(EXTRA_EVENT_ID)
+    }
+
+    private fun initViewPager() {
+        vpImages.adapter = ImagesViewPagerAdapter()
+
+        vpImages.offscreenPageLimit = 1
+
+        val nextItemVisiblePx = resources.getDimension(R.dimen.viewpager_next_item_visible)
+        val currentItemHorizontalMarginPx = resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
+        val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
+        val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
+            page.translationX = -pageTranslationX * position
+            page.scaleY = 1 - (0.1f * kotlin.math.abs(position))
+        }
+        vpImages.setPageTransformer(pageTransformer)
+
+        val itemDecoration = HorizontalMarginItemDecoration(
+            requireContext(),
+            R.dimen.viewpager_current_item_horizontal_margin
+        )
+        vpImages.addItemDecoration(itemDecoration)
     }
 }

@@ -59,6 +59,7 @@
         android:id="@+id/vpImages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_normal"
         android:orientation="horizontal"
         android:overScrollMode="never"
         app:layout_constraintHeight_percent="0.55"
