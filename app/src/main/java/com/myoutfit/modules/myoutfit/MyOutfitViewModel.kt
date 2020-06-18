@@ -2,7 +2,7 @@ package com.myoutfit.modules.myoutfit
 
 import androidx.lifecycle.MutableLiveData
 import com.myoutfit.base.BaseViewModel
-import com.myoutfit.models.ImageModel
+import com.myoutfit.models.image.ImageModel
 import com.myoutfit.models.network.NetworkState
 import com.myoutfit.repositories.EventRepository
 import kotlinx.coroutines.launch

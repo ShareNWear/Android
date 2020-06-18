@@ -1,7 +1,7 @@
 package com.myoutfit.models.user
 
 import com.google.gson.annotations.SerializedName
-import com.myoutfit.models.ImageModel
+import com.myoutfit.models.image.ImageModel
 
 class UserModel(
     @SerializedName("id") val id: Int?,

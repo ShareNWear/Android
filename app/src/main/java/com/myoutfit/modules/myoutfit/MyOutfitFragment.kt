@@ -6,10 +6,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.myoutfit.R
 import com.myoutfit.base.BaseFragment
 import com.myoutfit.decorators.HorizontalMarginItemDecoration
 import com.myoutfit.di.AppViewModelsFactory
+import com.myoutfit.models.image.ImageAdapterModel
 import com.myoutfit.models.network.ApiRequestStatus
 import com.myoutfit.modules.eventdetail.EventDetailFragment.Companion.EXTRA_EVENT_ID
 import com.myoutfit.modules.myoutfit.adapters.ImagesViewPagerAdapter
@@ -57,12 +59,28 @@ class MyOutfitFragment : BaseFragment() {
 
         viewModel.myImagesLiveData.observe(viewLifecycleOwner, Observer {
             it?.let {
-                (vpImages.adapter as? ImagesViewPagerAdapter)?.setData(it)
+                (vpImages.adapter as? ImagesViewPagerAdapter)?.setData(it.map { model ->
+                    ImageAdapterModel(
+                        path = model.path,
+                        id = model.id
+                    )
+                })
+                initPageCount()
             }
         })
 
         getEventId()?.let {
             viewModel.getMyImages(it)
+        }
+    }
+
+    private fun initPageCount() {
+        val itemCount = (vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount
+        /*if more then 1 image*/
+        if (itemCount != null && itemCount > 1) {
+            val currentItemCount =
+                "${vpImages.currentItem}/${itemCount}"
+            tvImageCount.text = currentItemCount
         }
     }
 
@@ -95,5 +113,13 @@ class MyOutfitFragment : BaseFragment() {
             R.dimen.viewpager_current_item_horizontal_margin
         )
         vpImages.addItemDecoration(itemDecoration)
+
+        vpImages.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val currentItemCount = "${position + 1}/${(vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount}"
+                tvImageCount.text = currentItemCount
+            }
+        })
     }
 }

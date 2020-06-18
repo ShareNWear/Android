@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.myoutfit.R
-import com.myoutfit.models.ImageModel
+import com.myoutfit.models.image.ImageAdapterModel
 import com.myoutfit.viewholders.image.ImageViewHolder
 
-class ImagesViewPagerAdapter : RecyclerView.Adapter<ImageViewHolder>() {
+class ImagesViewPagerAdapter(private val isFullScreen: Boolean = false) : RecyclerView.Adapter<ImageViewHolder>() {
 
-    private val dataList = mutableListOf<ImageModel>()
+    private val dataList = mutableListOf<ImageAdapterModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.item_image, parent, false)
-        return ImageViewHolder(view)
+        return ImageViewHolder(isFullScreen, view)
     }
 
     override fun getItemCount(): Int {
@@ -25,7 +25,7 @@ class ImagesViewPagerAdapter : RecyclerView.Adapter<ImageViewHolder>() {
         holder.bind(dataList[position])
     }
 
-    fun setData(data: List<ImageModel>) {
+    fun setData(data: List<ImageAdapterModel>) {
         dataList.clear()
         dataList.addAll(data)
         notifyDataSetChanged()

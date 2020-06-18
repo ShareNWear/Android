@@ -1,4 +1,4 @@
-package com.myoutfit.models
+package com.myoutfit.models.image
 
 import com.google.gson.annotations.SerializedName
 import com.myoutfit.models.user.UserModel
