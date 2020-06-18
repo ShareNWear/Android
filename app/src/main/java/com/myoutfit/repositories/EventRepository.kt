@@ -69,4 +69,24 @@ class EventRepository @Inject constructor(private val eventApi: EventApi) {
     ) {
         onNetworkError(it)
     }
+
+    suspend fun deleteImage(
+        imageId: Int,
+        onSuccess: suspend (response: Any) -> Unit,
+        onError: suspend (ResponseBody?) -> Unit,
+        onNetworkError: (NetworkState) -> Unit
+    ) = safeApiCall(
+        call = {
+            val response = eventApi.deleteImageAsync(imageId).await()
+
+            val data = response.body()
+
+            if (data != null)
+                onSuccess(data)
+            else onError(response.errorBody())
+        },
+        errorString = NetworkState.NO_INTERNET_CONNECTION
+    ) {
+        onNetworkError(it)
+    }
 }

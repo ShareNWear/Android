@@ -9,7 +9,11 @@ import com.myoutfit.utils.extentions.show
 import com.myoutfit.viewholders.BaseViewHolder
 import kotlinx.android.synthetic.main.item_image.view.*
 
-class ImageViewHolder(private val isFullScreen: Boolean, view: View) : BaseViewHolder<ImageAdapterModel>(view) {
+class ImageViewHolder(
+    private val onRemoveClicked: (ImageAdapterModel) -> Unit,
+    private val isFullScreen: Boolean,
+    view: View
+) : BaseViewHolder<ImageAdapterModel>(view) {
 
     override fun bind(item: ImageAdapterModel) {
         itemView.ivOutfit.loadWithGlide(item.path, R.drawable.placeholder_friend_blur)
@@ -17,6 +21,9 @@ class ImageViewHolder(private val isFullScreen: Boolean, view: View) : BaseViewH
             itemView.btnClose.gone()
         } else {
             itemView.btnClose.show()
+        }
+        itemView.btnClose.setOnClickListener {
+            onRemoveClicked(item)
         }
     }
 }

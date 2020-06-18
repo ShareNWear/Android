@@ -66,7 +66,9 @@ class FullScreenImageFragment : BaseFragment() {
     }
 
     private fun initViewPager() {
-        vpImages.adapter = ImagesViewPagerAdapter(true)
+        vpImages.adapter = ImagesViewPagerAdapter({
+            //none
+        }, true)
 
         vpImages.offscreenPageLimit = 1
 

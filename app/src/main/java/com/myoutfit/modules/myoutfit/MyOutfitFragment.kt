@@ -15,9 +15,7 @@ import com.myoutfit.models.image.ImageAdapterModel
 import com.myoutfit.models.network.ApiRequestStatus
 import com.myoutfit.modules.eventdetail.EventDetailFragment.Companion.EXTRA_EVENT_ID
 import com.myoutfit.modules.myoutfit.adapters.ImagesViewPagerAdapter
-import com.myoutfit.utils.extentions.goneWithAnimationAlpha
-import com.myoutfit.utils.extentions.showWithAnimationAlpha
-import com.myoutfit.utils.extentions.toastL
+import com.myoutfit.utils.extentions.*
 import kotlinx.android.synthetic.main.fragment_myoutfit.*
 import javax.inject.Inject
 
@@ -58,14 +56,25 @@ class MyOutfitFragment : BaseFragment() {
         })
 
         viewModel.myImagesLiveData.observe(viewLifecycleOwner, Observer {
-            it?.let {
+            if (it.isNotEmpty()) {
                 (vpImages.adapter as? ImagesViewPagerAdapter)?.setData(it.map { model ->
                     ImageAdapterModel(
                         path = model.path,
                         id = model.id
                     )
                 })
-                initPageCount()
+              //  initPageCount()
+            } else {
+                clNoImage.show()
+            }
+        })
+
+        viewModel.deletedImageIdLiveData.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                (vpImages.adapter as? ImagesViewPagerAdapter)?.removeImage(it)
+                if ((vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount == 0) {
+                    clNoImage.show()
+                }
             }
         })
 
@@ -78,6 +87,7 @@ class MyOutfitFragment : BaseFragment() {
         val itemCount = (vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount
         /*if more then 1 image*/
         if (itemCount != null && itemCount > 1) {
+            tvImageCount.show()
             val currentItemCount =
                 "${vpImages.currentItem}/${itemCount}"
             tvImageCount.text = currentItemCount
@@ -95,7 +105,9 @@ class MyOutfitFragment : BaseFragment() {
     }
 
     private fun initViewPager() {
-        vpImages.adapter = ImagesViewPagerAdapter()
+        vpImages.adapter = ImagesViewPagerAdapter({ model ->
+            viewModel.removePhoto(model)
+        })
 
         vpImages.offscreenPageLimit = 1
 
@@ -117,8 +129,15 @@ class MyOutfitFragment : BaseFragment() {
         vpImages.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                val currentItemCount = "${position + 1}/${(vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount}"
-                tvImageCount.text = currentItemCount
+                val itemCount = (vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount
+                if (itemCount != null && itemCount > 1) {
+                    tvImageCount.show()
+                    val currentItemCount = "${position + 1}/${itemCount}"
+                    logd("ViewPager", "currentItemCount $currentItemCount")
+                    tvImageCount.text = currentItemCount
+                } else {
+                    tvImageCount.gone()
+                }
             }
         })
     }
