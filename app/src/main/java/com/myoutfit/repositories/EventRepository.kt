@@ -6,6 +6,7 @@ import com.myoutfit.models.events.EventsResponse
 import com.myoutfit.models.image.MyImagesResponse
 import com.myoutfit.models.network.NetworkState
 import com.myoutfit.utils.safeApiCall
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import javax.inject.Inject
 
@@ -78,6 +79,30 @@ class EventRepository @Inject constructor(private val eventApi: EventApi) {
     ) = safeApiCall(
         call = {
             val response = eventApi.deleteImageAsync(imageId).await()
+
+            val data = response.body()
+
+            if (data != null)
+                onSuccess(data)
+            else onError(response.errorBody())
+        },
+        errorString = NetworkState.NO_INTERNET_CONNECTION
+    ) {
+        onNetworkError(it)
+    }
+
+    suspend fun uploadPhoto(
+        eventId: Int,
+        image: MultipartBody.Part?,
+        onSuccess: suspend (response: Any) -> Unit,
+        onError: suspend (ResponseBody?) -> Unit,
+        onNetworkError: (NetworkState) -> Unit
+    ) = safeApiCall(
+        call = {
+            val response = eventApi.uploadPhotoAsync(
+                eventId,
+                image
+            ).await()
 
             val data = response.body()
 

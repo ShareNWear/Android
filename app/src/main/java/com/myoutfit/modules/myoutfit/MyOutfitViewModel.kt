@@ -6,6 +6,7 @@ import com.myoutfit.models.image.ImageAdapterModel
 import com.myoutfit.models.image.ImageModel
 import com.myoutfit.models.network.NetworkState
 import com.myoutfit.repositories.EventRepository
+import com.myoutfit.utils.extentions.createPartFromStringUri
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,6 +17,8 @@ class MyOutfitViewModel @Inject constructor(private val eventRepository: EventRe
     val myImagesLiveData by lazy { MutableLiveData<List<ImageModel>>() }
 
     val deletedImageIdLiveData by lazy { MutableLiveData<ImageAdapterModel>() }
+
+    val uploadImageStatus by lazy { MutableLiveData<Boolean>() }
 
     fun getMyImages(eventId: Int) {
         requestStatusLiveData.postValue(NetworkState.LOADING)
@@ -47,6 +50,27 @@ class MyOutfitViewModel @Inject constructor(private val eventRepository: EventRe
                 })
             }
         }
+    }
 
+    fun uploadPhoto(eventId: Int, path: String) {
+        requestStatusLiveData.postValue(NetworkState.LOADING)
+        launch {
+            eventRepository.uploadPhoto(
+                eventId,
+                createPartFromStringUri(
+                    "image",
+                    "image/png",
+                    path
+                ), {
+                    requestStatusLiveData.postValue(NetworkState.SUCCESSFUL)
+                    uploadImageStatus.postValue(true)
+                }, {
+                    requestStatusLiveData.postValue(NetworkState.FAILED)
+                    uploadImageStatus.postValue(false)
+                }, {
+                    requestStatusLiveData.postValue(NetworkState.NO_INTERNET)
+                    uploadImageStatus.postValue(false)
+                })
+        }
     }
 }

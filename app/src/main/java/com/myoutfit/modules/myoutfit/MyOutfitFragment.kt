@@ -1,6 +1,11 @@
 package com.myoutfit.modules.myoutfit
 
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -8,6 +13,7 @@ import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.myoutfit.R
+import com.myoutfit.base.BaseActivity
 import com.myoutfit.base.BaseFragment
 import com.myoutfit.decorators.HorizontalMarginItemDecoration
 import com.myoutfit.di.AppViewModelsFactory
@@ -20,6 +26,10 @@ import kotlinx.android.synthetic.main.fragment_myoutfit.*
 import javax.inject.Inject
 
 class MyOutfitFragment : BaseFragment() {
+
+    companion object {
+        const val SELECT_MEDIA_REQUEST_CODE = 333
+    }
 
     @Inject
     lateinit var vmFactory: AppViewModelsFactory
@@ -83,14 +93,29 @@ class MyOutfitFragment : BaseFragment() {
             }
         })
 
-        getEventId()?.let {
-            viewModel.getMyImages(it)
-        }
+        viewModel.uploadImageStatus.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it) {
+                    getMyImages()
+                }
+            }
+        })
+
+        getMyImages()
     }
 
     override fun setListeners() {
         btnBack.setOnClickListener {
             Navigation.findNavController(requireActivity(), R.id.nav_host).popBackStack()
+        }
+        btnAddPhoto.setOnClickListener {
+            checkCameraPermissions()
+        }
+    }
+
+    private fun getMyImages() {
+        getEventId()?.let {
+            viewModel.getMyImages(it)
         }
     }
 
@@ -137,5 +162,76 @@ class MyOutfitFragment : BaseFragment() {
         } else {
             tvImageCount.gone()
         }
+    }
+
+    private fun uploadFromGallery() {
+        val pickerIntent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.INTERNAL_CONTENT_URI
+        )
+        pickerIntent.putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/*"))
+        pickerIntent.action = Intent.ACTION_GET_CONTENT
+        pickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true) //for multiple selection
+        startActivityForResult(pickerIntent, SELECT_MEDIA_REQUEST_CODE)
+    }
+
+    private fun onPhotoSelected(imageList: List<String>) {
+        getEventId()?.let { id ->
+            imageList.getOrNull(0)?.let {
+                viewModel.uploadPhoto(id, it)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_MEDIA_REQUEST_CODE) {
+                val mediaList = mutableListOf<String>()
+                if (data?.clipData != null) {
+                    val mClipData = data.clipData
+                    for (i in 0 until mClipData!!.itemCount) {
+                        val item = mClipData.getItemAt(i)
+                        val selectedMedia = item.uri
+                        context?.getPath(selectedMedia)?.let {
+                            mediaList.add(it)
+                        }
+                    }
+                } else {
+                    if (data?.data != null) {
+                        val selectedMedia = data.data
+                        context?.getPath(selectedMedia)?.let {
+                            mediaList.add(it)
+                        }
+                    }
+                }
+                onPhotoSelected(mediaList)
+            }
+        }
+    }
+
+    private fun checkCameraPermissions() {
+        val permissions = listOf(/*Manifest.permission.CAMERA,*/ Manifest.permission.READ_EXTERNAL_STORAGE)
+        val permissionCallback = object : BaseActivity.IPermissionResultCallback {
+            override fun onPermissionGranted() {
+                uploadFromGallery()
+            }
+
+            override fun onPermissionDenied() {
+                AlertDialog.Builder(activity, R.style.Theme_AppCompat_Light_Dialog).apply {
+                    setMessage("Please unable permission to upload photo from gallery")
+                    setPositiveButton("Unable") { dialog, _ ->
+                        dialog.cancel()
+                        checkCameraPermissions()
+                    }
+                    setNegativeButton("Cancel") { dialog, _ ->
+                        dialog.cancel()
+                    }
+                }.create().show()
+                checkCameraPermissions()
+            }
+        }
+        (activity as? BaseActivity)?.checkPermissions(permissions, permissionCallback)
     }
 }

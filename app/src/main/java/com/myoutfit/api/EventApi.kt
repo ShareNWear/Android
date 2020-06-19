@@ -4,10 +4,9 @@ import com.myoutfit.models.events.EventDetailResponse
 import com.myoutfit.models.events.EventsResponse
 import com.myoutfit.models.image.MyImagesResponse
 import kotlinx.coroutines.Deferred
+import okhttp3.MultipartBody
 import retrofit2.Response
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface EventApi {
 
@@ -27,5 +26,12 @@ interface EventApi {
     @DELETE("api/user/events/delete-image/{id}")
     fun deleteImageAsync(
         @Path("id") id: Int
+    ): Deferred<Response<Any>>
+
+    @Multipart
+    @POST("api/user/events/{id}/upload-image")
+    fun uploadPhotoAsync(
+        @Path("id") id: Int,
+        @Part image: MultipartBody.Part?
     ): Deferred<Response<Any>>
 }
