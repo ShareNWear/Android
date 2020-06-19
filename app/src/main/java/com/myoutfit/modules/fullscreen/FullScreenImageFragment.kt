@@ -55,7 +55,6 @@ class FullScreenImageFragment : BaseFragment() {
                     id = 0 //useless id value in current screen
                 )
             })
-            initPageCount()
         }
         arguments?.getString(EXT_FRIEND_IMAGE)?.let {
             ivFriend.loadWithGlideCircleCrop(it)
@@ -94,15 +93,5 @@ class FullScreenImageFragment : BaseFragment() {
                 tvImageCount.text = currentItemCount
             }
         })
-    }
-
-    private fun initPageCount() {
-        val itemCount = (vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount
-        /*if more then 1 image*/
-        if (itemCount != null && itemCount > 1) {
-            val currentItemCount =
-                "${vpImages.currentItem}/${itemCount}"
-            tvImageCount.text = currentItemCount
-        }
     }
 }

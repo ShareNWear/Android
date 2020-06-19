@@ -63,7 +63,6 @@ class MyOutfitFragment : BaseFragment() {
                         id = model.id
                     )
                 })
-              //  initPageCount()
             } else {
                 clNoImage.show()
             }
@@ -72,6 +71,12 @@ class MyOutfitFragment : BaseFragment() {
         viewModel.deletedImageIdLiveData.observe(viewLifecycleOwner, Observer {
             it?.let {
                 (vpImages.adapter as? ImagesViewPagerAdapter)?.removeImage(it)
+
+                /*update counter manually, because onPageSelected callback doesn't trigger sometimes,
+                 it is some bug of viewpager2*/
+                val currentItemPosition = vpImages.currentItem
+                updateItemCount(currentItemPosition)
+
                 if ((vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount == 0) {
                     clNoImage.show()
                 }
@@ -80,17 +85,6 @@ class MyOutfitFragment : BaseFragment() {
 
         getEventId()?.let {
             viewModel.getMyImages(it)
-        }
-    }
-
-    private fun initPageCount() {
-        val itemCount = (vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount
-        /*if more then 1 image*/
-        if (itemCount != null && itemCount > 1) {
-            tvImageCount.show()
-            val currentItemCount =
-                "${vpImages.currentItem}/${itemCount}"
-            tvImageCount.text = currentItemCount
         }
     }
 
@@ -129,16 +123,19 @@ class MyOutfitFragment : BaseFragment() {
         vpImages.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                val itemCount = (vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount
-                if (itemCount != null && itemCount > 1) {
-                    tvImageCount.show()
-                    val currentItemCount = "${position + 1}/${itemCount}"
-                    logd("ViewPager", "currentItemCount $currentItemCount")
-                    tvImageCount.text = currentItemCount
-                } else {
-                    tvImageCount.gone()
-                }
+                updateItemCount(position)
             }
         })
+    }
+
+    private fun updateItemCount(position: Int) {
+        val itemCount = (vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount
+        if (itemCount != null && itemCount > 1) {
+            tvImageCount.show()
+            val currentItemCount = "${position + 1}/${itemCount}"
+            tvImageCount.text = currentItemCount
+        } else {
+            tvImageCount.gone()
+        }
     }
 }
