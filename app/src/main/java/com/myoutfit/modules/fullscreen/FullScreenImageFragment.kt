@@ -54,7 +54,8 @@ class FullScreenImageFragment : BaseFragment() {
             (vpImages.adapter as? ImagesViewPagerAdapter)?.setData(it.map { path ->
                 ImageAdapterModel(
                     path = path,
-                    id = 0 //useless id value in current screen
+                    imageName = "",
+                    id = 0 //useless id value in current screen,
                 )
             })
         }

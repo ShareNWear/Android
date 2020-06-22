@@ -59,6 +59,7 @@ class ConfirmPhotoFragment : BaseFragment() {
             (vpImages.adapter as? ImagesViewPagerAdapter)?.setData(it.map { path ->
                 ImageAdapterModel(
                     path = path,
+                    imageName = "",
                     id = 0 //useless id value in current screen
                 )
             })

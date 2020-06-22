@@ -47,8 +47,8 @@ class ImagesViewPagerAdapter(
                 ): Boolean {
                     val new = data[newItemPosition]
                     val old = dataList[oldItemPosition]
-                    return old.id == new.id /*&&
-                            old.path == new.path*/
+                    return old.id == new.id &&
+                            old.imageName == new.imageName
                 }
 
                 override fun getOldListSize() = dataList.size

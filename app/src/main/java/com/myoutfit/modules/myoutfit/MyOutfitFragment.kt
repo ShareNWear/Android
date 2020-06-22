@@ -4,9 +4,11 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -23,6 +25,8 @@ import com.myoutfit.modules.eventdetail.EventDetailFragment.Companion.EXTRA_EVEN
 import com.myoutfit.modules.myoutfit.adapters.ImagesViewPagerAdapter
 import com.myoutfit.utils.extentions.*
 import kotlinx.android.synthetic.main.fragment_myoutfit.*
+import lolodev.permissionswrapper.callback.OnRequestPermissionsCallBack
+import lolodev.permissionswrapper.wrapper.PermissionWrapper
 import javax.inject.Inject
 
 class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
@@ -67,9 +71,11 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
 
         viewModel.myImagesLiveData.observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) {
+                clNoImage.gone()
                 (vpImages.adapter as? ImagesViewPagerAdapter)?.setData(it.map { model ->
                     ImageAdapterModel(
                         path = model.path,
+                        imageName = model.name,
                         id = model.id
                     )
                 })
@@ -113,7 +119,7 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
             Navigation.findNavController(requireActivity(), R.id.nav_host).popBackStack()
         }
         btnAddPhoto.setOnClickListener {
-            checkCameraPermissions()
+            checkStoragePermission()
         }
     }
 
@@ -212,28 +218,32 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
         }
     }
 
-    private fun checkCameraPermissions() {
-        val permissions = listOf(/*Manifest.permission.CAMERA,*/ Manifest.permission.READ_EXTERNAL_STORAGE)
-        val permissionCallback = object : BaseActivity.IPermissionResultCallback {
-            override fun onPermissionGranted() {
-                uploadFromGallery()
-            }
+    private fun checkStoragePermission() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission is not granted
+            PermissionWrapper.Builder(requireContext())
+                .addPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE))
+                //enable rationale message with a custom message
+                .addPermissionRationale(
+                    getString(R.string.storage_perm_rationale)
+                )
+                //show settings dialog,in this case with default message base on requested permission/s
+                .addPermissionsGoSettings(true)
+                .addRequestPermissionsCallBack(object : OnRequestPermissionsCallBack {
+                    override fun onDenied(p0: String?) {
+                        /*none*/
+                    }
 
-            override fun onPermissionDenied() {
-                AlertDialog.Builder(activity, R.style.Theme_AppCompat_Light_Dialog).apply {
-                    setMessage("Please unable permission to upload photo from gallery")
-                    setPositiveButton("Unable") { dialog, _ ->
-                        dialog.cancel()
-                        checkCameraPermissions()
+                    override fun onGrant() {
+                        uploadFromGallery()
                     }
-                    setNegativeButton("Cancel") { dialog, _ ->
-                        dialog.cancel()
-                    }
-                }.create().show()
-                checkCameraPermissions()
-            }
+                })
+                .build().request()
+        } else {
+            uploadFromGallery()
         }
-        (activity as? BaseActivity)?.checkPermissions(permissions, permissionCallback)
     }
 
     private fun showConfirmScreen(imageList: List<String>) {
