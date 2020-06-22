@@ -12,11 +12,11 @@ import com.myoutfit.base.BaseFragment
 import com.myoutfit.data.locale.sharedpreferences.AppSharedPreferences
 import com.myoutfit.decorators.EventSpaceDecorator
 import com.myoutfit.di.AppViewModelsFactory
-import com.myoutfit.modules.events.adapters.EventAdapter
 import com.myoutfit.models.network.ApiRequestStatus
 import com.myoutfit.modules.eventdetail.EventDetailFragment.Companion.EXTRA_EVENT_ID
-import com.myoutfit.utils.extentions.gone
-import com.myoutfit.utils.extentions.show
+import com.myoutfit.modules.events.adapters.EventAdapter
+import com.myoutfit.utils.extentions.goneWithAnimationAlpha
+import com.myoutfit.utils.extentions.showWithAnimationAlpha
 import com.myoutfit.utils.extentions.toastL
 import kotlinx.android.synthetic.main.fragment_events.*
 import javax.inject.Inject
@@ -49,17 +49,17 @@ class EventsFragment : BaseFragment() {
         viewModel.requestStatusLiveData.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 ApiRequestStatus.RUNNING -> {
-                    loadView.show()
+                    loadView.showWithAnimationAlpha()
                 }
                 ApiRequestStatus.SUCCESSFUL -> {
-                    loadView.gone()
+                    loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.FAILED -> {
                     toastL(getString(R.string.error_server_default))
-                    loadView.gone()
+                    loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.NO_INTERNET -> {
-                    loadView.gone()
+                    loadView.goneWithAnimationAlpha()
                     toastL(getString(R.string.error_internet_connection))
                 }
             }

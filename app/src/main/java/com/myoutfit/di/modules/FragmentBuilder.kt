@@ -5,6 +5,7 @@ import com.myoutfit.modules.events.EventsFragment
 import com.myoutfit.modules.fullscreen.FullScreenImageFragment
 import com.myoutfit.modules.login.LoginFragment
 import com.myoutfit.modules.myoutfit.MyOutfitFragment
+import com.myoutfit.modules.myoutfit.ConfirmPhotoFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -25,4 +26,7 @@ interface FragmentBuilder {
 
     @ContributesAndroidInjector
     fun provideMyOutfirFragment(): MyOutfitFragment
+
+    @ContributesAndroidInjector
+    fun provideConfirmPhotoFragment(): ConfirmPhotoFragment
 }

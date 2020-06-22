@@ -1,5 +1,6 @@
-package com.myoutfit.modules.fullscreen
+package com.myoutfit.modules.myoutfit
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
@@ -7,62 +8,60 @@ import com.myoutfit.R
 import com.myoutfit.base.BaseFragment
 import com.myoutfit.decorators.HorizontalMarginItemDecoration
 import com.myoutfit.models.image.ImageAdapterModel
-import com.myoutfit.models.user.UserModel
 import com.myoutfit.modules.myoutfit.adapters.ImagesViewPagerAdapter
 import com.myoutfit.utils.extentions.gone
-import com.myoutfit.utils.extentions.loadWithGlideCircleCrop
 import com.myoutfit.utils.extentions.show
-import kotlinx.android.synthetic.main.fragment_full_screen_image.*
-import java.util.ArrayList
+import kotlinx.android.synthetic.main.fragment_confirm_photo.*
 
-class FullScreenImageFragment : BaseFragment() {
+class ConfirmPhotoFragment : BaseFragment() {
+
     companion object {
-        const val EXT_OUTFIT_IMAGE = "ext_outfit_image"
-        const val EXT_NAME = "ext_name"
-        const val EXT_FRIEND_IMAGE = "ext_friend_name"
+        const val EXT_IMAGES = "ext_images"
 
-        fun newInstance(user: UserModel) = FullScreenImageFragment().apply {
+        fun newInstance(imageList: List<String>) = ConfirmPhotoFragment().apply {
             val bundle = Bundle()
-            bundle.putStringArrayList(EXT_OUTFIT_IMAGE, user.images?.map {
-                it.path ?: ""
-            } as? ArrayList<String>)
-            bundle.putString(EXT_FRIEND_IMAGE, user.logoPath)
-            bundle.putString(EXT_NAME, user.name)
+            bundle.putStringArrayList(EXT_IMAGES, imageList as? ArrayList<String>)
             this.arguments = bundle
         }
     }
 
-    override fun layoutId(): Int = R.layout.fragment_full_screen_image
+    var confirmPhotoFragmentListener: IConfirmPhotoFragmentListener? = null
+
+    override fun layoutId(): Int = R.layout.fragment_confirm_photo
 
     override fun onViewReady(inflatedView: View, args: Bundle?) {
         initViewPager()
         fillView()
     }
 
-    override fun initViewModel() {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (parentFragment is IConfirmPhotoFragmentListener) {
+            confirmPhotoFragmentListener = (parentFragment as IConfirmPhotoFragmentListener)
+        }
+    }
 
+    override fun initViewModel() {
     }
 
     override fun setListeners() {
         btnBack.setOnClickListener {
             activity?.onBackPressed()
         }
+        btnOK.setOnClickListener {
+            confirmPhotoFragmentListener?.onImagesSelected()
+            activity?.onBackPressed()
+        }
     }
 
     private fun fillView() {
-        arguments?.getStringArrayList(EXT_OUTFIT_IMAGE)?.let {
+        arguments?.getStringArrayList(EXT_IMAGES)?.let {
             (vpImages.adapter as? ImagesViewPagerAdapter)?.setData(it.map { path ->
                 ImageAdapterModel(
                     path = path,
                     id = 0 //useless id value in current screen
                 )
             })
-        }
-        arguments?.getString(EXT_FRIEND_IMAGE)?.let {
-            ivFriend.loadWithGlideCircleCrop(it)
-        }
-        arguments?.getString(EXT_NAME)?.let {
-            tvName.text = it
         }
     }
 
@@ -106,4 +105,8 @@ class FullScreenImageFragment : BaseFragment() {
             tvImageCount.gone()
         }
     }
+}
+
+interface IConfirmPhotoFragmentListener {
+    fun onImagesSelected()
 }

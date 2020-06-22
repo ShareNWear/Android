@@ -52,8 +52,8 @@ class OutfitImagesAdapter(private val onImageClicked: (model: UserModel) -> Unit
                     val old = dataList[oldItemPosition]
                     return old.id == new.id &&
                             old.logoPath == new.logoPath &&
-                            old.name == new.name/* &&
-                            old.images == new.images*/
+                            old.name == new.name &&
+                            old.images?.size == new.images?.size
                 }
 
                 override fun getOldListSize() = dataList.size

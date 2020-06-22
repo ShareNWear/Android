@@ -25,7 +25,7 @@ import com.myoutfit.utils.extentions.*
 import kotlinx.android.synthetic.main.fragment_myoutfit.*
 import javax.inject.Inject
 
-class MyOutfitFragment : BaseFragment() {
+class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
 
     companion object {
         const val SELECT_MEDIA_REQUEST_CODE = 333
@@ -73,6 +73,10 @@ class MyOutfitFragment : BaseFragment() {
                         id = model.id
                     )
                 })
+                /*update counter manually, because onPageSelected callback doesn't trigger sometimes,
+                it is some bug of viewpager2*/
+                val currentItemPosition = vpImages.currentItem
+                updateItemCount(currentItemPosition)
             } else {
                 clNoImage.show()
             }
@@ -176,11 +180,8 @@ class MyOutfitFragment : BaseFragment() {
     }
 
     private fun onPhotoSelected(imageList: List<String>) {
-        getEventId()?.let { id ->
-            imageList.getOrNull(0)?.let {
-                viewModel.uploadPhoto(id, it)
-            }
-        }
+        viewModel.imageListLiveData.postValue(imageList)
+        showConfirmScreen(imageList)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -233,5 +234,20 @@ class MyOutfitFragment : BaseFragment() {
             }
         }
         (activity as? BaseActivity)?.checkPermissions(permissions, permissionCallback)
+    }
+
+    private fun showConfirmScreen(imageList: List<String>) {
+        val fragment = ConfirmPhotoFragment.newInstance(imageList)
+        childFragmentManager
+            .beginTransaction()
+            .add(R.id.fragmentContainer, fragment, ConfirmPhotoFragment::class.java.simpleName)
+            .addToBackStack(ConfirmPhotoFragment::class.java.simpleName)
+            .commit()
+    }
+
+    override fun onImagesSelected() {
+        getEventId()?.let { id ->
+            viewModel.uploadPhoto(id)
+        }
     }
 }

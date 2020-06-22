@@ -2,7 +2,6 @@ package com.myoutfit.modules.eventdetail
 
 import android.os.Bundle
 import android.view.View
-import android.widget.FrameLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -43,17 +42,17 @@ class EventDetailFragment : BaseFragment() {
         viewModel.requestStatusLiveData.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 ApiRequestStatus.RUNNING -> {
-                    loadView.show()
+                    loadView.showWithAnimationAlpha()
                 }
                 ApiRequestStatus.SUCCESSFUL -> {
-                    loadView.gone()
+                    loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.FAILED -> {
                     toastL(getString(R.string.error_server_default))
-                    loadView.gone()
+                    loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.NO_INTERNET -> {
-                    loadView.gone()
+                    loadView.goneWithAnimationAlpha()
                     toastL(getString(R.string.error_internet_connection))
                 }
             }
@@ -65,9 +64,8 @@ class EventDetailFragment : BaseFragment() {
             }
         })
 
-        val showLoader = viewModel.eventLiveData.value == null
         getEventId()?.let {
-            viewModel.getEventData(it, showLoader)
+            viewModel.getEventData(it)
         }
     }
 
@@ -110,12 +108,11 @@ class EventDetailFragment : BaseFragment() {
     }
 
     private fun showFullScreen(image: UserModel) {
-        activity?.findViewById<FrameLayout>(R.id.fragmentContainer)?.showWithAnimationAlpha()
         val fragment = FullScreenImageFragment.newInstance(image)
-        activity?.supportFragmentManager
-            ?.beginTransaction()
-            ?.add(R.id.fragmentContainer, fragment, FullScreenImageFragment::class.java.simpleName)
-            ?.addToBackStack(FullScreenImageFragment::class.java.simpleName)
-            ?.commit()
+        childFragmentManager
+            .beginTransaction()
+            .add(R.id.fragmentContainer, fragment, FullScreenImageFragment::class.java.simpleName)
+            .addToBackStack(FullScreenImageFragment::class.java.simpleName)
+            .commit()
     }
 }

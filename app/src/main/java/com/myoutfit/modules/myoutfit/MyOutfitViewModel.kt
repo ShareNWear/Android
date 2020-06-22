@@ -20,6 +20,8 @@ class MyOutfitViewModel @Inject constructor(private val eventRepository: EventRe
 
     val uploadImageStatus by lazy { MutableLiveData<Boolean>() }
 
+    val imageListLiveData by lazy { MutableLiveData<List<String>>() }
+
     fun getMyImages(eventId: Int) {
         requestStatusLiveData.postValue(NetworkState.LOADING)
         launch {
@@ -52,25 +54,30 @@ class MyOutfitViewModel @Inject constructor(private val eventRepository: EventRe
         }
     }
 
-    fun uploadPhoto(eventId: Int, path: String) {
-        requestStatusLiveData.postValue(NetworkState.LOADING)
-        launch {
-            eventRepository.uploadPhoto(
-                eventId,
-                createPartFromStringUri(
-                    "image",
-                    "image/png",
-                    path
-                ), {
-                    requestStatusLiveData.postValue(NetworkState.SUCCESSFUL)
-                    uploadImageStatus.postValue(true)
-                }, {
-                    requestStatusLiveData.postValue(NetworkState.FAILED)
-                    uploadImageStatus.postValue(false)
-                }, {
-                    requestStatusLiveData.postValue(NetworkState.NO_INTERNET)
-                    uploadImageStatus.postValue(false)
-                })
+    fun uploadPhoto(eventId: Int) {
+        imageListLiveData.value?.let { images ->
+            requestStatusLiveData.postValue(NetworkState.LOADING)
+            launch {
+                eventRepository.uploadPhoto(
+                    eventId,
+                    images.map {
+                        createPartFromStringUri(
+                            "image",
+                            "image/png",
+                            it
+                        )
+                    }
+                    , {
+                        requestStatusLiveData.postValue(NetworkState.SUCCESSFUL)
+                        uploadImageStatus.postValue(true)
+                    }, {
+                        requestStatusLiveData.postValue(NetworkState.FAILED)
+                        uploadImageStatus.postValue(false)
+                    }, {
+                        requestStatusLiveData.postValue(NetworkState.NO_INTERNET)
+                        uploadImageStatus.postValue(false)
+                    })
+            }
         }
     }
 }

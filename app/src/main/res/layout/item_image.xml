@@ -23,6 +23,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
         android:contentDescription="@null"
+        android:elevation="4dp"
         android:padding="@dimen/margin_very_small"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="@id/ivOutfit"
