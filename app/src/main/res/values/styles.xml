@@ -33,10 +33,10 @@
     </style>
 
     <style name="BaseButtonStyle" parent="MarcellusRegularFont">
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorWhite</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorAppDark</item>
         <item name="android:gravity">center</item>
     </style>
 

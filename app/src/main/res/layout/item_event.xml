@@ -26,6 +26,7 @@
         android:layout_marginStart="@dimen/margin_normal"
         android:layout_marginBottom="@dimen/margin_small"
         android:background="@drawable/rectangle"
+        android:elevation="1dp"
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/colorWhite"
@@ -41,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_average"
         android:layout_marginEnd="@dimen/margin_average"
+        android:elevation="1dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:textSize="20sp"
@@ -49,5 +51,12 @@
         app:layout_constraintStart_toEndOf="@id/tvDate"
         app:layout_constraintTop_toTopOf="@id/tvDate"
         tools:text="Event name" />
+
+    <View
+        android:id="@+id/tint"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/shape_dark_gradient"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

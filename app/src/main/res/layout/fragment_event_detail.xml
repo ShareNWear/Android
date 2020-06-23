@@ -88,14 +88,17 @@
                 app:layout_constraintTop_toBottomOf="@id/tvDate"
                 tools:text="Event location" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/btnMyOutfit"
                 style="@style/BaseButtonStyle"
                 android:layout_width="108dp"
                 android:layout_height="40dp"
                 android:layout_margin="@dimen/margin_average"
-                android:text="@string/my_outfit"
-                android:textSize="17sp"
+                android:background="@color/colorAppDark"
+                android:contentDescription="@null"
+                android:padding="10dp"
+                android:src="@drawable/text_my_outfit"
+                android:textColor="@color/colorWhite"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivEvent" />

@@ -82,8 +82,8 @@ class EventsFragment : BaseFragment() {
                             })
                 }
             }
-            val margin = resources.getDimensionPixelSize(R.dimen.margin_very_small)
-            addItemDecoration(EventSpaceDecorator(margin))
+        /*    val margin = resources.getDimensionPixelSize(R.dimen.margin_very_small)
+            addItemDecoration(EventSpaceDecorator(margin))*/
         }
     }
 

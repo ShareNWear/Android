@@ -8,7 +8,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAppDark"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -25,6 +25,22 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/BaseTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:paddingStart="20dp"
+        android:paddingTop="@dimen/margin_medium"
+        android:paddingEnd="20dp"
+        android:paddingBottom="@dimen/margin_normal"
+        android:text="@string/my_events"
+        android:textColor="#979392"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvEvents"
         android:layout_width="0dp"
@@ -32,7 +48,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
     <include
         android:id="@+id/loadView"

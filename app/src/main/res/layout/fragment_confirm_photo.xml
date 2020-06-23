@@ -53,11 +53,9 @@
         android:layout_height="50dp"
         android:layout_marginEnd="@dimen/margin_average"
         android:layout_marginBottom="@dimen/margin_medium"
-        android:background="@drawable/shape_ok_orange"
         android:clickable="true"
         android:contentDescription="@null"
         android:focusable="true"
-        android:padding="14dp"
         android:src="@drawable/ic_ok"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
