@@ -25,6 +25,10 @@ import com.myoutfit.modules.eventdetail.EventDetailFragment.Companion.EXTRA_EVEN
 import com.myoutfit.modules.myoutfit.adapters.ImagesViewPagerAdapter
 import com.myoutfit.utils.extentions.*
 import kotlinx.android.synthetic.main.fragment_myoutfit.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import lolodev.permissionswrapper.callback.OnRequestPermissionsCallBack
 import lolodev.permissionswrapper.wrapper.PermissionWrapper
 import javax.inject.Inject
@@ -119,7 +123,18 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
             Navigation.findNavController(requireActivity(), R.id.nav_host).popBackStack()
         }
         btnAddPhoto.setOnClickListener {
+            val itemCount = getUploadedPhotoCount()
+            if (itemCount != null && itemCount >= 5) {
+                toastSh(getString(R.string.warning_max_upload_size))
+                return@setOnClickListener
+            }
             checkStoragePermission()
+            /*prevent double clicking*/
+            GlobalScope.launch(Dispatchers.Main) {
+                btnAddPhoto.isEnabled = false
+                delay(100)
+                btnAddPhoto.isEnabled = true
+            }
         }
     }
 
@@ -163,8 +178,12 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
         })
     }
 
+    private fun getUploadedPhotoCount(): Int? {
+        return (vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount
+    }
+
     private fun updateItemCount(position: Int) {
-        val itemCount = (vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount
+        val itemCount = getUploadedPhotoCount()
         if (itemCount != null && itemCount > 1) {
             tvImageCount.show()
             val currentItemCount = "${position + 1}/${itemCount}"
@@ -186,7 +205,6 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
     }
 
     private fun onPhotoSelected(imageList: List<String>) {
-        viewModel.imageListLiveData.postValue(imageList)
         showConfirmScreen(imageList)
     }
 
@@ -247,7 +265,8 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
     }
 
     private fun showConfirmScreen(imageList: List<String>) {
-        val fragment = ConfirmPhotoFragment.newInstance(imageList)
+        val fragment =
+            ConfirmPhotoFragment.newInstance(imageList, getUploadedPhotoCount())
         childFragmentManager
             .beginTransaction()
             .add(R.id.fragmentContainer, fragment, ConfirmPhotoFragment::class.java.simpleName)
@@ -255,9 +274,9 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
             .commit()
     }
 
-    override fun onImagesSelected() {
+    override fun onImagesSelected(images: List<String>) {
         getEventId()?.let { id ->
-            viewModel.uploadPhoto(id)
+            viewModel.uploadPhoto(id, images)
         }
     }
 }

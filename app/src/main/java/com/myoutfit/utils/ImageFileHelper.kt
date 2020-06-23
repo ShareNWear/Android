@@ -3,7 +3,6 @@ package com.myoutfit.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.myoutfit.utils.extentions.logd
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -35,7 +34,6 @@ class ImageFileHelper(private val context: Context) {
         fos.close()
 
         byteArrayOutputStream.close()
-        logd("compress", f.length().toString())
         return f
     }
 

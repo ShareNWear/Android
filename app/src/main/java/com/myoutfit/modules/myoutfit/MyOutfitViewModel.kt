@@ -24,8 +24,6 @@ class MyOutfitViewModel @Inject constructor(
 
     val uploadImageStatus by lazy { MutableLiveData<Boolean>() }
 
-    val imageListLiveData by lazy { MutableLiveData<List<String>>() }
-
     fun getMyImages(eventId: Int) {
         requestStatusLiveData.postValue(NetworkState.LOADING)
         launch {
@@ -58,30 +56,28 @@ class MyOutfitViewModel @Inject constructor(
         }
     }
 
-    fun uploadPhoto(eventId: Int) {
-        imageListLiveData.value?.let { images ->
-            requestStatusLiveData.postValue(NetworkState.LOADING)
-            launch {
-                eventRepository.uploadPhoto(
-                    eventId,
-                    images.map {
-                        createPartFromStringUri(
-                            "image",
-                            "image/png",
-                            imageFileHelper.createAndCompressImageFileFromPath(it)
-                        )
-                    }
-                    , {
-                        requestStatusLiveData.postValue(NetworkState.SUCCESSFUL)
-                        uploadImageStatus.postValue(true)
-                    }, {
-                        requestStatusLiveData.postValue(NetworkState.FAILED)
-                        uploadImageStatus.postValue(false)
-                    }, {
-                        requestStatusLiveData.postValue(NetworkState.NO_INTERNET)
-                        uploadImageStatus.postValue(false)
-                    })
-            }
+    fun uploadPhoto(eventId: Int, images: List<String>) {
+        requestStatusLiveData.postValue(NetworkState.LOADING)
+        launch {
+            eventRepository.uploadPhoto(
+                eventId,
+                images.map {
+                    createPartFromStringUri(
+                        "image",
+                        "image/png",
+                        imageFileHelper.createAndCompressImageFileFromPath(it)
+                    )
+                }
+                , {
+                    requestStatusLiveData.postValue(NetworkState.SUCCESSFUL)
+                    uploadImageStatus.postValue(true)
+                }, {
+                    requestStatusLiveData.postValue(NetworkState.FAILED)
+                    uploadImageStatus.postValue(false)
+                }, {
+                    requestStatusLiveData.postValue(NetworkState.NO_INTERNET)
+                    uploadImageStatus.postValue(false)
+                })
         }
     }
 }

@@ -11,21 +11,23 @@ import com.myoutfit.models.image.ImageAdapterModel
 import com.myoutfit.modules.myoutfit.adapters.ImagesViewPagerAdapter
 import com.myoutfit.utils.extentions.gone
 import com.myoutfit.utils.extentions.show
+import com.myoutfit.utils.extentions.toastSh
 import kotlinx.android.synthetic.main.fragment_confirm_photo.*
 
 class ConfirmPhotoFragment : BaseFragment() {
 
     companion object {
         const val EXT_IMAGES = "ext_images"
-
-        fun newInstance(imageList: List<String>) = ConfirmPhotoFragment().apply {
+        const val EXT_UPLOADED_IMAGES_COUNT = "ext_uploaded_images_count"
+        fun newInstance(imageList: List<String>, uploadedImagesCount: Int?) = ConfirmPhotoFragment().apply {
             val bundle = Bundle()
             bundle.putStringArrayList(EXT_IMAGES, imageList as? ArrayList<String>)
+            bundle.putInt(EXT_UPLOADED_IMAGES_COUNT, uploadedImagesCount ?: 0)
             this.arguments = bundle
         }
     }
 
-    var confirmPhotoFragmentListener: IConfirmPhotoFragmentListener? = null
+    private var confirmPhotoFragmentListener: IConfirmPhotoFragmentListener? = null
 
     override fun layoutId(): Int = R.layout.fragment_confirm_photo
 
@@ -42,6 +44,7 @@ class ConfirmPhotoFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
+
     }
 
     override fun setListeners() {
@@ -49,7 +52,21 @@ class ConfirmPhotoFragment : BaseFragment() {
             activity?.onBackPressed()
         }
         btnOK.setOnClickListener {
-            confirmPhotoFragmentListener?.onImagesSelected()
+            /*calculate uploaded images + confirm image
+            * sum should not be more than 5*/
+            val imageCount =  arguments?.getInt(EXT_UPLOADED_IMAGES_COUNT)?.plus(
+                (vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount ?: 0
+            ) ?: 0
+
+            if (imageCount > 5) {
+                toastSh(getString(R.string.warning_max_upload_size))
+                return@setOnClickListener
+            }
+            (vpImages.adapter as? ImagesViewPagerAdapter)?.getData()?.map {
+                it.path ?: ""
+            }?.let {
+                confirmPhotoFragmentListener?.onImagesSelected((it))
+            }
             activity?.onBackPressed()
         }
     }
@@ -68,7 +85,12 @@ class ConfirmPhotoFragment : BaseFragment() {
 
     private fun initViewPager() {
         vpImages.adapter = ImagesViewPagerAdapter({
-            //none
+            /*if removed last image go back*/
+            if ((vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount == 1) {
+                activity?.onBackPressed()
+            } else {
+                (vpImages.adapter as? ImagesViewPagerAdapter)?.removeImage(it)
+            }
         }, true)
 
         vpImages.offscreenPageLimit = 1
@@ -109,5 +131,5 @@ class ConfirmPhotoFragment : BaseFragment() {
 }
 
 interface IConfirmPhotoFragmentListener {
-    fun onImagesSelected()
+    fun onImagesSelected(images: List<String>)
 }

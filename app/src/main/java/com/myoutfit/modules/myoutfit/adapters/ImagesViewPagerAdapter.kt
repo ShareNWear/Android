@@ -10,7 +10,7 @@ import com.myoutfit.viewholders.image.ImageViewHolder
 
 class ImagesViewPagerAdapter(
     private val onRemoveClicked: (ImageAdapterModel) -> Unit,
-    private val isFullScreen: Boolean = false
+    private val isRemovable: Boolean = true
 ) : RecyclerView.Adapter<ImageViewHolder>() {
 
     private val dataList = mutableListOf<ImageAdapterModel>()
@@ -18,7 +18,7 @@ class ImagesViewPagerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.item_image, parent, false)
-        return ImageViewHolder(onRemoveClicked, isFullScreen, view)
+        return ImageViewHolder(onRemoveClicked, isRemovable, view)
     }
 
     override fun getItemCount(): Int {
@@ -66,5 +66,9 @@ class ImagesViewPagerAdapter(
         val position = dataList.indexOf(dataList.find { it.id == item.id })
         dataList.removeAt(position)
         notifyDataSetChanged()
+    }
+
+    fun getData(): List<ImageAdapterModel> {
+        return dataList
     }
 }
