@@ -6,11 +6,15 @@ import com.myoutfit.models.image.ImageAdapterModel
 import com.myoutfit.models.image.ImageModel
 import com.myoutfit.models.network.NetworkState
 import com.myoutfit.repositories.EventRepository
+import com.myoutfit.utils.ImageFileHelper
 import com.myoutfit.utils.extentions.createPartFromStringUri
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MyOutfitViewModel @Inject constructor(private val eventRepository: EventRepository) : BaseViewModel() {
+class MyOutfitViewModel @Inject constructor(
+    private val eventRepository: EventRepository,
+    private val imageFileHelper: ImageFileHelper
+) : BaseViewModel() {
 
     val requestStatusLiveData by lazy { MutableLiveData<NetworkState>() }
 
@@ -64,7 +68,7 @@ class MyOutfitViewModel @Inject constructor(private val eventRepository: EventRe
                         createPartFromStringUri(
                             "image",
                             "image/png",
-                            it
+                            imageFileHelper.createAndCompressImageFileFromPath(it)
                         )
                     }
                     , {

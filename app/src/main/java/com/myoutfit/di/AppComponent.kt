@@ -16,7 +16,9 @@ import javax.inject.Singleton
         FragmentBuilder::class,
         NetworkModule::class,
         SpModule::class,
-        AppApiModule::class
+        AppApiModule::class,
+        ImageFileHelperModule::class,
+        ContextModule::class
     ]
 )
 interface AppComponent {
