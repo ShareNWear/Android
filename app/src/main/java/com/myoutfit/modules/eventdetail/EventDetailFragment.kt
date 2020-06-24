@@ -53,7 +53,11 @@ class EventDetailFragment : BaseFragment() {
                 }
                 ApiRequestStatus.NO_INTERNET -> {
                     loadView.goneWithAnimationAlpha()
-                    toastL(getString(R.string.error_internet_connection))
+                    showNoInternetDialog {
+                        getEventId()?.let { id ->
+                            viewModel.getEventData(id)
+                        }
+                    }
                 }
             }
         })
@@ -64,8 +68,8 @@ class EventDetailFragment : BaseFragment() {
             }
         })
 
-        getEventId()?.let {
-            viewModel.getEventData(it)
+        getEventId()?.let { id ->
+            viewModel.getEventData(id)
         }
     }
 

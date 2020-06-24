@@ -2,7 +2,6 @@ package com.myoutfit.modules.myoutfit
 
 import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -15,7 +14,6 @@ import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.myoutfit.R
-import com.myoutfit.base.BaseActivity
 import com.myoutfit.base.BaseFragment
 import com.myoutfit.decorators.HorizontalMarginItemDecoration
 import com.myoutfit.di.AppViewModelsFactory
@@ -68,13 +66,15 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
                 }
                 ApiRequestStatus.NO_INTERNET -> {
                     loadView.goneWithAnimationAlpha()
-                    toastL(getString(R.string.error_internet_connection))
+                    showNoInternetDialog {
+                      getMyImages()
+                    }
                 }
             }
         })
 
         viewModel.myImagesLiveData.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()) {
+            if (!it.isNullOrEmpty()) {
                 clNoImage.gone()
                 (vpImages.adapter as? ImagesViewPagerAdapter)?.setData(it.map { model ->
                     ImageAdapterModel(

@@ -60,7 +60,9 @@ class EventsFragment : BaseFragment() {
                 }
                 ApiRequestStatus.NO_INTERNET -> {
                     loadView.goneWithAnimationAlpha()
-                    toastL(getString(R.string.error_internet_connection))
+                    showNoInternetDialog {
+                        viewModel.getEvents(true)
+                    }
                 }
             }
         })
