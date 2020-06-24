@@ -89,6 +89,7 @@ class EventDetailFragment : BaseFragment() {
 
     private fun fillView(data: EventDetailResponse) {
         btnMyOutfit.show()
+        tint.show()
         ivEvent.loadWithGlide(data.coverSource)
         tvEventName.text = data.name
         tvLocation.text = data.place?.name

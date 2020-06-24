@@ -46,6 +46,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
+                android:elevation="1dp"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:paddingStart="20dp"
@@ -55,6 +56,14 @@
                 app:layout_constraintEnd_toEndOf="@id/ivEvent"
                 app:layout_constraintStart_toStartOf="@id/ivEvent"
                 tools:text="Event name" />
+
+            <View
+                android:id="@+id/tint"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/shape_dark_gradient"
+                app:layout_constraintBottom_toBottomOf="@id/ivEvent" />
 
             <TextView
                 android:id="@+id/tvDate"
@@ -96,7 +105,7 @@
                 android:layout_margin="@dimen/margin_average"
                 android:background="@color/colorAppDark"
                 android:contentDescription="@null"
-                android:padding="10dp"
+                android:padding="9dp"
                 android:src="@drawable/text_my_outfit"
                 android:textColor="@color/colorWhite"
                 android:visibility="gone"

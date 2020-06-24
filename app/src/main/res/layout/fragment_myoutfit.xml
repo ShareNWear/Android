@@ -42,13 +42,11 @@
 
         <ImageView
             android:id="@+id/btnAddPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="@dimen/margin_very_small"
+            android:layout_marginEnd="@dimen/margin_average"
             android:contentDescription="@null"
-            android:paddingStart="@dimen/margin_very_small"
-            android:paddingTop="@dimen/margin_very_small"
-            android:paddingEnd="14dp"
-            android:paddingBottom="@dimen/margin_very_small"
             android:src="@drawable/ic_add_photo"
             app:layout_constraintBottom_toBottomOf="@id/btnBack"
             app:layout_constraintEnd_toEndOf="parent"
