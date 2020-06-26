@@ -46,7 +46,6 @@ class LoginViewModel @Inject constructor(private val authorizationRepository: Au
                 }, {
                     //error
                     profileDataSuccess.postValue(false)
-                    requestStatusLiveData.postValue(NetworkState.error(it))
                 }, {
                     //network error
                     requestStatusLiveData.postValue(NetworkState.NO_INTERNET)
