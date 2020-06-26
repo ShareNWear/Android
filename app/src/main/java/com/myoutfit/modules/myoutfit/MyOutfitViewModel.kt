@@ -32,7 +32,7 @@ class MyOutfitViewModel @Inject constructor(
                 myImagesLiveData.postValue(it.data)
             }, {
                 myImagesLiveData.postValue(null)
-                requestStatusLiveData.postValue(NetworkState.FAILED)
+                requestStatusLiveData.postValue(NetworkState.error(it))
             }, {
                 myImagesLiveData.postValue(null)
                 requestStatusLiveData.postValue(NetworkState.NO_INTERNET)
@@ -48,7 +48,7 @@ class MyOutfitViewModel @Inject constructor(
                     requestStatusLiveData.postValue(NetworkState.SUCCESSFUL)
                     deletedImageIdLiveData.postValue(model)
                 }, {
-                    requestStatusLiveData.postValue(NetworkState.FAILED)
+                    requestStatusLiveData.postValue(NetworkState.error(it))
                 }, {
                     requestStatusLiveData.postValue(NetworkState.NO_INTERNET)
                 })
@@ -72,7 +72,7 @@ class MyOutfitViewModel @Inject constructor(
                     requestStatusLiveData.postValue(NetworkState.SUCCESSFUL)
                     uploadImageStatus.postValue(true)
                 }, {
-                    requestStatusLiveData.postValue(NetworkState.FAILED)
+                    requestStatusLiveData.postValue(NetworkState.error(it))
                     uploadImageStatus.postValue(false)
                 }, {
                     requestStatusLiveData.postValue(NetworkState.NO_INTERNET)

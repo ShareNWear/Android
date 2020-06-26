@@ -17,7 +17,7 @@ enum class ApiRequestStatus {
 
 data class NetworkState constructor(
     val status: ApiRequestStatus,
-    val commonError: CommonServerError? = null
+    val error: CommonServerError? = null
 ) {
 
     companion object {
@@ -65,6 +65,20 @@ data class NetworkState constructor(
                 }
             }
         }
+
+        fun error(errorBody: ResponseBody?): NetworkState {
+            val errorBodyContent = errorBody?.string()
+            return when {
+                errorBodyContent != null && errorBodyContent.contains("Unauthenticated") -> NetworkState(
+                    ApiRequestStatus.FAILED, CommonServerError(
+                        "Unauthenticated",
+                        "Unauthenticated, please login again via Facebook"
+                    )
+                )
+                else -> NetworkState(ApiRequestStatus.FAILED, CommonServerError(UNKNOWN_ERROR, TITLE_UNKNOWN_ERROR))
+            }
+        }
+
 
         private fun getCommonErrorFromResponse(
             errorBody: ResponseBody?,

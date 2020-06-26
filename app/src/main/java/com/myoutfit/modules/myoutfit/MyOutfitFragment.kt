@@ -61,7 +61,7 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
                     loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.FAILED -> {
-                    toastL(getString(R.string.error_server_default))
+                    toastL(it.error?.error?:getString(R.string.error_server_default))
                     loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.NO_INTERNET -> {

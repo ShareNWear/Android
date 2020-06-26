@@ -17,14 +17,16 @@ import com.myoutfit.base.BaseFragment
 import com.myoutfit.data.locale.sharedpreferences.AppSharedPreferences
 import com.myoutfit.di.AppViewModelsFactory
 import com.myoutfit.models.network.ApiRequestStatus
-import com.myoutfit.utils.extentions.gone
-import com.myoutfit.utils.extentions.logd
-import com.myoutfit.utils.extentions.show
-import com.myoutfit.utils.extentions.toastL
+import com.myoutfit.utils.extentions.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class LoginFragment : BaseFragment() {
+
+    companion object {
+        private const val START_DELAY = 1000L
+    }
 
     @Inject
     lateinit var vmFactory: AppViewModelsFactory
@@ -35,13 +37,14 @@ class LoginFragment : BaseFragment() {
     private lateinit var viewModel: LoginViewModel
     private lateinit var callbackManager: CallbackManager
 
+    var initTime: Long? = 0
+
     override fun layoutId(): Int {
         return R.layout.fragment_login
     }
 
     override fun onViewReady(inflatedView: View, args: Bundle?) {
         initFacebookLogin()
-        checkAccessCode()
     }
 
     override fun setListeners() {
@@ -59,19 +62,20 @@ class LoginFragment : BaseFragment() {
         viewModel.requestStatusLiveData.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 ApiRequestStatus.RUNNING -> {
-                    loadView.show()
+                    loadView.showWithAnimationAlpha()
                 }
                 ApiRequestStatus.SUCCESSFUL -> {
-                    loadView.gone()
+                    loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.FAILED -> {
-                    toastL(getString(R.string.error_server_default))
-                    loadView.gone()
+                    toastL(it.error?.error?:getString(R.string.error_server_default))
+                    loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.NO_INTERNET -> {
-                    loadView.gone()
+                    loadView.goneWithAnimationAlpha()
                     showNoInternetDialog {
-
+                        /*check token status*/
+                        viewModel.getProfileData()
                     }
                 }
             }
@@ -84,13 +88,41 @@ class LoginFragment : BaseFragment() {
                 }
             }
         })
+
+        viewModel.profileDataSuccess.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it) {
+                    /*token is valid - go to the next screen*/
+                    /*delay login screen, like splash*/
+                    val time = if (initTime != null) {
+                        START_DELAY - (System.currentTimeMillis() - initTime!!)
+                    } else {
+                        START_DELAY
+                    }
+                    GlobalScope.launch {
+                        delay(time)
+                        withContext(Dispatchers.Main) {
+                            Navigation.findNavController(requireActivity(), R.id.nav_host)
+                                .navigate(R.id.action_open_events)
+                        }
+                    }
+                } else {
+                    /*token not valid or error received, show login button for relogin*/
+                    btnLogin.show()
+                }
+            }
+        })
+
+        checkAccessCode()
     }
 
     private fun checkAccessCode() {
         if (sp.getAuthKey().isEmpty()) {
             btnLogin.show()
         } else {
-            Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.action_open_events)
+            /*check if token expired by fetching profile data*/
+            viewModel.getProfileData()
+            initTime = System.currentTimeMillis()
         }
     }
 

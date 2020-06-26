@@ -5,6 +5,7 @@ import com.myoutfit.data.locale.sharedpreferences.AppSharedPreferences
 import com.myoutfit.models.login.LoginModel
 import com.myoutfit.models.login.LoginResponse
 import com.myoutfit.models.network.NetworkState
+import com.myoutfit.models.profile.ProfileResponseModel
 import com.myoutfit.utils.safeApiCall
 import okhttp3.ResponseBody
 import javax.inject.Inject
@@ -31,6 +32,25 @@ class AuthorizationRepository @Inject constructor(
                 data.accessToken?.let {
                     sp.setAuthKey(it)
                 }
+                onSuccess(data)
+            } else onError(response.errorBody())
+        },
+        errorString = NetworkState.NO_INTERNET_CONNECTION
+    ) {
+        onNetworkError(it)
+    }
+
+    suspend fun getProfileData(
+        onSuccess: suspend (response: ProfileResponseModel) -> Unit,
+        onError: suspend (ResponseBody?) -> Unit,
+        onNetworkError: (NetworkState) -> Unit
+    ) = safeApiCall(
+        call = {
+            val response = authorizationApi.getProfileAsync().await()
+
+            val data = response.body()
+
+            if (data != null) {
                 onSuccess(data)
             } else onError(response.errorBody())
         },

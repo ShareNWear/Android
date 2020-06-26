@@ -22,7 +22,7 @@ class EventsViewModel @Inject constructor(private val eventRepository: EventRepo
                 requestStatusLiveData.postValue(NetworkState.SUCCESSFUL)
                 eventsLiveData.postValue(it.data)
             }, {
-                requestStatusLiveData.postValue(NetworkState.FAILED)
+                requestStatusLiveData.postValue(NetworkState.error(it))
             }, {
                 requestStatusLiveData.postValue(NetworkState.NO_INTERNET)
             })

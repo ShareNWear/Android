@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.myoutfit.base.BaseViewModel
 import com.myoutfit.models.network.NetworkState
 import com.myoutfit.repositories.AuthorizationRepository
-import com.myoutfit.utils.extentions.logd
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,6 +12,7 @@ class LoginViewModel @Inject constructor(private val authorizationRepository: Au
 
     val requestStatusLiveData by lazy { MutableLiveData<NetworkState>() }
     val authorizationLiveData by lazy { MutableLiveData<Boolean>() }
+    val profileDataSuccess by lazy { MutableLiveData<Boolean>() }
 
     fun loginFacebook(
         facebookToken: String
@@ -23,19 +23,33 @@ class LoginViewModel @Inject constructor(private val authorizationRepository: Au
                 facebookToken,
                 {
                     //success
-                    logd("Login", it.toString())
                     requestStatusLiveData.postValue(NetworkState.SUCCESSFUL)
                     authorizationLiveData.postValue(true)
                 }, {
                     //error
-                    requestStatusLiveData.postValue(NetworkState.FAILED)
+                    requestStatusLiveData.postValue(NetworkState.error(it))
                     authorizationLiveData.postValue(false)
-                    logd("Login", "error $it")
                 }, {
                     //network error
                     requestStatusLiveData.postValue(NetworkState.NO_INTERNET)
                     authorizationLiveData.postValue(false)
-                    logd("Login", it.toString())
+                })
+        }
+    }
+
+    fun getProfileData() {
+        launch {
+            authorizationRepository.getProfileData(
+                {
+                    //success
+                    profileDataSuccess.postValue(true)
+                }, {
+                    //error
+                    profileDataSuccess.postValue(false)
+                    requestStatusLiveData.postValue(NetworkState.error(it))
+                }, {
+                    //network error
+                    requestStatusLiveData.postValue(NetworkState.NO_INTERNET)
                 })
         }
     }
