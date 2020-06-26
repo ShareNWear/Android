@@ -101,7 +101,6 @@ class LoginFragment : BaseFragment() {
             .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult) {
                     handleFacebookAccessToken(loginResult.accessToken)
-                    logd("accessToke", loginResult.accessToken.token)
                 }
 
                 override fun onCancel() {
@@ -115,9 +114,7 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun handleFacebookAccessToken(facebookToken: AccessToken) {
-        sp.setAuthKey(getString(R.string.temp_access_token))
-        // viewModel.loginFacebook(getString(R.string.temp_auth_code))
-        Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.action_open_events)
+        viewModel.loginFacebook(facebookToken.token)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

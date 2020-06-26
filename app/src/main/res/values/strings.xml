@@ -17,10 +17,6 @@
     <string name="error_internet_connection">Please make sure your Wi-Fi or Cellular data is turned
         on, then try again.
     </string>
-    <string name="temp_access_token">
-        eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNTc0ZTg4MGYwMzhhYzFhN2IyNTg2MjU4NTM4YmFjMWRiMTczZTlkOWZlMDEyMzY3ZDdiMWQ0YzUwY2QxOWJmN2Y5YWNiYjc0NmY2ZGU3NjgiLCJpYXQiOjE1OTI5ODU4MTgsIm5iZiI6MTU5Mjk4NTgxOCwiZXhwIjoxNTkyOTg5NDE4LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.n_4GVyfGwxFenrPiifcvRGwkGXpp6CKSCZzeyfq2EZNattqGrYBSKUTO-b-f8hGiIyQTQp00yiGPJ3YhMLA64WAOaf-9wAvFHmE07IUJ0mrraIP3eop-TKF-ShBnCz46ILJnOOQITH2nmPCf1fYFOWGeRReoww69ODi1S7V0WduK9A7-zDudlH7TSpKRYHFwktv3ZInkOFh_n_YiSxn7FInjZLuj24VeuYCPTsBj1YvWRmG6d0pthI_SCdJ-IGEi9ovw6rWGMX6j1kpldyuRlUDW6aK1HKZeRDenv6H8NgCggKzeEexVTVGN7CdSFhFLcaA5Ei8U9Ex8OM33o-sSKHXJ-J9RM6VscxAGYVCBLk6uL8JerkbKgYX_SCHkjmL7IMG3tYnam7UiEgPocRmFkJ-wNe6rnIQTtKqboyFrk-5tGUuOi2aIXYcex6i84hvGh6OdxRUHmiqFz3VtG7jgwuENn8qOVnwQJpQM1nLh8WINIRVWt9flQL6MG1lOPuP_9tFLY0vIrvd12tCy_G9RjrbFnv-Hj7n4uVLI49H6CZ1HG5jaM2HPPfBucG8a2I_ql9RKqz0zYuoo0HZUW5uFpCB2O1tFSgKV92G64qnUaZDXGW4486corZJ_GY0yGiUnhgWZgv88CN2bzCdxRc5mGp0OfQr74lm7WoYFDqsJJwc
-    </string>
-    <string name="temp_auth_code">AQDQDZ_ozOAl-WwY6D6Bfn4jiWmIy99crahVxX8oavx2tteMMTtC1kWhOficp6J57ISKHLLxeX-Anf0HFyQ13YcgE4Nwi9qevuhreaOrf9uVBJF00IqlbBsghENzEIvH41GaKugpGxDVLL6q_cHXRsaY51mX3ZQTHjG_OFk-ZjHmuiAYIw4wHu-B7NrnEOgK9TYROSGVS4Oa6WaC4Yz-YuNzQOcIw50SOyvfHU1UmIomGcjylsytftP_FSsVQzjlQ4qWOJTfOyN3SzYytKgEY-QZYSiK8YZN8PqyPqi0nIRSMCfTIYFQ2HIuU0ZAbe26rESg2ui2oLl-MynqNHrOhwoI#_=_</string>
     <string name="my_outfit">My outfit</string>
     <string name="transition_image">transition_image</string>
     <string name="no_images_desc">Here you will see your outfit\nafter you add the photo.</string>
@@ -31,5 +27,4 @@
     <string name="my_events">My events</string>
     <string name="reload">Reload page</string>
     <string name="no_internet">No internet connection</string>
-
 </resources>
