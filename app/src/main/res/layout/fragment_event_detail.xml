@@ -36,7 +36,7 @@
                 android:paddingTop="11dp"
                 android:paddingEnd="@dimen/margin_very_small"
                 android:paddingBottom="@dimen/margin_very_small"
-                android:src="@drawable/ic_back_arrow_white"
+                android:src="@drawable/ic_arrow_back_white"
                 app:layout_constraintStart_toStartOf="@id/ivEvent"
                 app:layout_constraintTop_toTopOf="@id/ivEvent" />
 

@@ -49,6 +49,7 @@ class LoginFragment : BaseFragment() {
 
     override fun setListeners() {
         btnLogin.setOnClickListener {
+            LoginManager.getInstance().logOut()
             LoginManager.getInstance().logInWithReadPermissions(
                 this@LoginFragment, listOf("user_events")
             )
@@ -68,7 +69,7 @@ class LoginFragment : BaseFragment() {
                     loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.FAILED -> {
-                    toastL(it.error?.error?:getString(R.string.error_server_default))
+                    toastL(it.error?.error ?: getString(R.string.error_server_default))
                     loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.NO_INTERNET -> {
@@ -140,7 +141,10 @@ class LoginFragment : BaseFragment() {
                 }
 
                 override fun onError(error: FacebookException) {
-                    toastL(getString(R.string.error_fb_login))
+                    error.localizedMessage ?: getString(R.string.error_fb_login).let {
+                        toastL(it)
+                        logd("Login", it)
+                    }
                 }
             })
     }
