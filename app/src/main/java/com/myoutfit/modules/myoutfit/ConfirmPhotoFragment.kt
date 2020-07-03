@@ -120,7 +120,7 @@ class ConfirmPhotoFragment : BaseFragment() {
 
     private fun updateItemCount(position: Int) {
         val itemCount = (vpImages.adapter as? ImagesViewPagerAdapter)?.itemCount
-        if (itemCount != null && itemCount > 1) {
+        if (itemCount != null && itemCount > 0) {
             tvImageCount.show()
             val currentItemCount = "${position + 1}/${itemCount}"
             tvImageCount.text = currentItemCount

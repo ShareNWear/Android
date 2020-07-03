@@ -184,7 +184,7 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
 
     private fun updateItemCount(position: Int) {
         val itemCount = getUploadedPhotoCount()
-        if (itemCount != null && itemCount > 1) {
+        if (itemCount != null && itemCount > 0) {
             tvImageCount.show()
             val currentItemCount = "${position + 1}/${itemCount}"
             tvImageCount.text = currentItemCount
