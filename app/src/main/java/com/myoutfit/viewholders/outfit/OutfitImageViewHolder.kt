@@ -12,6 +12,10 @@ class OutfitImageViewHolder(view: View, private val onImageClicked: (model: User
 
     override fun bind(item: UserModel) {
         itemView.ivOutfit.loadWithGlide(item.images?.getOrNull(0)?.path, R.drawable.placeholder_friend_blur)
+        item.images?.size?.let {
+            val currentItemCount = "${1}/${it}"
+            itemView.tvImageCount.text = currentItemCount
+        }
         itemView.tvName.text = item.name
         itemView.setOnClickListener {
             onImageClicked(item)
