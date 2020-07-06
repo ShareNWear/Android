@@ -53,13 +53,16 @@ class EventsFragment : BaseFragment() {
                 }
                 ApiRequestStatus.SUCCESSFUL -> {
                     loadView.goneWithAnimationAlpha()
+                    showRefreshing(false)
                 }
                 ApiRequestStatus.FAILED -> {
-                    toastL(it.error?.error?:getString(R.string.error_server_default))
+                    toastL(it.error?.error ?: getString(R.string.error_server_default))
                     loadView.goneWithAnimationAlpha()
+                    showRefreshing(false)
                 }
                 ApiRequestStatus.NO_INTERNET -> {
                     loadView.goneWithAnimationAlpha()
+                    showRefreshing(false)
                     showNoInternetDialog {
                         viewModel.getEvents(true)
                     }
@@ -84,8 +87,8 @@ class EventsFragment : BaseFragment() {
                             })
                 }
             }
-        /*    val margin = resources.getDimensionPixelSize(R.dimen.margin_very_small)
-            addItemDecoration(EventSpaceDecorator(margin))*/
+            /*    val margin = resources.getDimensionPixelSize(R.dimen.margin_very_small)
+                addItemDecoration(EventSpaceDecorator(margin))*/
         }
     }
 
@@ -93,11 +96,18 @@ class EventsFragment : BaseFragment() {
         btnLogout.setOnClickListener {
             logout()
         }
+        swrEvents.setOnRefreshListener {
+            viewModel.getEvents(false)
+        }
     }
 
     private fun logout() {
         sp.clearAuthKey()
         LoginManager.getInstance().logOut()
         Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(R.id.action_logout)
+    }
+
+    private fun showRefreshing(refresh: Boolean) {
+        swrEvents.isRefreshing = refresh
     }
 }
