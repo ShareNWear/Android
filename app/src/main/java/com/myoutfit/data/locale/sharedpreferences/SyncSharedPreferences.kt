@@ -8,9 +8,9 @@ import javax.inject.Singleton
 class SyncSharedPreferences(context: Context, private val gson: Gson) : AppSharedPreferences {
 
     companion object {
-        const val KEY_AUTH_KEY = " auth_key"
         const val SHARED_PREFERENCES_NAME = "sp_my_outfit"
-
+        const val KEY_AUTH_KEY = " auth_key"
+        const val KEY_REFRESH_TOKEN = " refresh_token_key"
     }
 
     private val sharedPreferences = context.getSharedPreferences(
@@ -32,4 +32,9 @@ class SyncSharedPreferences(context: Context, private val gson: Gson) : AppShare
         setAuthKey(null)
     }
 
+    override fun setRefreshToken(key: String) {
+        sharedPreferences.edit().putString(KEY_REFRESH_TOKEN, key).apply()
+    }
+
+    override fun getRefreshToken(): String = sharedPreferences.getString(KEY_REFRESH_TOKEN, "") ?: ""
 }

@@ -32,6 +32,9 @@ class AuthorizationRepository @Inject constructor(
                 data.accessToken?.let {
                     sp.setAuthKey(it)
                 }
+                data.refreshToken?.let {
+                    sp.setRefreshToken(it)
+                }
                 onSuccess(data)
             } else onError(response.errorBody())
         },
