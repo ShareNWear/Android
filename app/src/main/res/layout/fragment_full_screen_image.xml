@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintHeight_percent="0.75"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

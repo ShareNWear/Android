@@ -99,7 +99,7 @@ class EventDetailFragment : BaseFragment() {
         tvLocation.text = data.place?.name
         tvDate.text = data.startTime?.toStringDate()
         data.users?.let {
-            (rvOutfit.adapter as? OutfitImagesAdapter)?.setData(data.users)
+            (rvOutfit.adapter as? OutfitImagesAdapter)?.setData(data.users.asReversed())
         }
     }
 

@@ -37,7 +37,7 @@ class LoginFragment : BaseFragment() {
     private lateinit var viewModel: LoginViewModel
     private lateinit var callbackManager: CallbackManager
 
-    var initTime: Long? = 0
+    private var initTime: Long? = 0
 
     override fun layoutId(): Int {
         return R.layout.fragment_login

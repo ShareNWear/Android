@@ -61,7 +61,7 @@
         android:layout_marginTop="@dimen/margin_normal"
         android:orientation="horizontal"
         android:overScrollMode="never"
-        app:layout_constraintHeight_percent="0.55"
+        app:layout_constraintHeight_percent="0.75"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <TextView
