@@ -44,9 +44,9 @@
             android:id="@+id/btnAddPhoto"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:padding="@dimen/margin_very_small"
             android:layout_marginEnd="@dimen/margin_average"
             android:contentDescription="@null"
+            android:padding="@dimen/margin_very_small"
             android:src="@drawable/ic_add_photo"
             app:layout_constraintBottom_toBottomOf="@id/btnBack"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +61,7 @@
         android:layout_marginTop="@dimen/margin_normal"
         android:orientation="horizontal"
         android:overScrollMode="never"
-        app:layout_constraintHeight_percent="0.75"
+        app:layout_constraintDimensionRatio="340:404"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <TextView
@@ -119,6 +119,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvError"
+        style="@style/BaseTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/margin_super_large"
+        android:text="@string/event_not_found"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <include
         android:id="@+id/loadView"

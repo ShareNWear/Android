@@ -46,12 +46,22 @@ class EventDetailFragment : BaseFragment() {
                 }
                 ApiRequestStatus.SUCCESSFUL -> {
                     loadView.goneWithAnimationAlpha()
+                    tvError.gone()
                 }
                 ApiRequestStatus.FAILED -> {
-                    toastL(it.error?.error ?: getString(R.string.error_server_default))
+                    showEventData(false)
+                    tvError?.apply {
+                        text = if (it.error?.errorCode == "event.not.found") {
+                            context.getString(R.string.event_not_found)
+                        } else {
+                            it.error?.error ?: getString(R.string.error_server_default)
+                        }
+                        show()
+                    }
                     loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.NO_INTERNET -> {
+                    tvError.gone()
                     loadView.goneWithAnimationAlpha()
                     showNoInternetDialog {
                         getEventId()?.let { id ->
@@ -101,6 +111,16 @@ class EventDetailFragment : BaseFragment() {
         data.users?.let {
             (rvOutfit.adapter as? OutfitImagesAdapter)?.setData(data.users.asReversed())
         }
+    }
+
+    private fun showEventData(show: Boolean) {
+        btnMyOutfit.visibility = if (show) View.VISIBLE else View.GONE
+        tint.visibility = if (show) View.VISIBLE else View.GONE
+        ivEvent.visibility = if (show) View.VISIBLE else View.GONE
+        tvEventName.visibility = if (show) View.VISIBLE else View.GONE
+        tvLocation.visibility = if (show) View.VISIBLE else View.GONE
+        tvDate.visibility = if (show) View.VISIBLE else View.GONE
+        rvOutfit.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     private fun initRecycle() {

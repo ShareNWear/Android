@@ -3,6 +3,7 @@ package com.myoutfit.models.network
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException
+import com.myoutfit.models.error.ErrorModel
 import com.myoutfit.utils.extentions.logd
 import okhttp3.ResponseBody
 import retrofit2.HttpException
@@ -68,8 +69,25 @@ data class NetworkState constructor(
 
         fun error(errorBody: ResponseBody?): NetworkState {
             val errorBodyContent = errorBody?.string()
+                ?: return NetworkState(ApiRequestStatus.FAILED, CommonServerError(UNKNOWN_ERROR, TITLE_UNKNOWN_ERROR))
+
+            val errorModel = try {
+                Gson().fromJson(errorBodyContent, ErrorModel::class.java)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+
             return when {
-                errorBodyContent != null && errorBodyContent.contains("Unauthenticated") -> NetworkState(
+                errorModel?.error?.code != null -> {
+                    NetworkState(
+                        ApiRequestStatus.FAILED, CommonServerError(
+                            errorModel.error.code,
+                            errorModel.error.message ?: ""
+                        )
+                    )
+                }
+                errorBodyContent.contains("Unauthenticated") -> NetworkState(
                     ApiRequestStatus.FAILED, CommonServerError(
                         "Unauthenticated",
                         "Unauthenticated, please login again via Facebook"
@@ -78,7 +96,6 @@ data class NetworkState constructor(
                 else -> NetworkState(ApiRequestStatus.FAILED, CommonServerError(UNKNOWN_ERROR, TITLE_UNKNOWN_ERROR))
             }
         }
-
 
         private fun getCommonErrorFromResponse(
             errorBody: ResponseBody?,

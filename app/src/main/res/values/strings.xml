@@ -26,4 +26,5 @@
     <string name="my_events">My events</string>
     <string name="reload">Reload page</string>
     <string name="no_internet">No internet connection</string>
+    <string name="event_not_found">The event was deleted or you don\'t have permission. You can\'t choose a photo</string>
 </resources>

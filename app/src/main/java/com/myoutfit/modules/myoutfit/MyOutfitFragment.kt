@@ -61,13 +61,18 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
                     loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.FAILED -> {
-                    toastL(it.error?.error?:getString(R.string.error_server_default))
+                    if (it.error?.errorCode == "event.not.found") {
+                        tvError.show()
+                        goneBaseView()
+                    } else {
+                        toastL(it.error?.error ?: getString(R.string.error_server_default))
+                    }
                     loadView.goneWithAnimationAlpha()
                 }
                 ApiRequestStatus.NO_INTERNET -> {
                     loadView.goneWithAnimationAlpha()
                     showNoInternetDialog {
-                      getMyImages()
+                        getMyImages()
                     }
                 }
             }
@@ -278,5 +283,12 @@ class MyOutfitFragment : BaseFragment(), IConfirmPhotoFragmentListener {
         getEventId()?.let { id ->
             viewModel.uploadPhoto(id, images)
         }
+    }
+
+    private fun goneBaseView() {
+        btnAddPhoto.hide()
+        vpImages.gone()
+        clNoImage.gone()
+        tvImageCount.gone()
     }
 }

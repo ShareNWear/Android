@@ -6,9 +6,9 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/baseView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="26dp">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -29,14 +29,14 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:background="@drawable/tint_image"
                 android:clickable="true"
                 android:contentDescription="@null"
                 android:focusable="true"
-                android:elevation="4dp"
-                android:scaleType="fitCenter"
-                android:layout_marginTop="3dp"
-                android:layout_marginStart="11dp"
-                android:src="@drawable/ic_arrow_back"
+                android:padding="5dp"
+                android:src="@drawable/ic_back_arrow_white"
                 app:layout_constraintStart_toStartOf="@id/ivEvent"
                 app:layout_constraintTop_toTopOf="@id/ivEvent" />
 
@@ -133,6 +133,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvError"
+        style="@style/BaseTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/margin_super_large"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        android:visibility="gone"
+        tools:text="@string/event_not_found" />
 
     <include
         android:id="@+id/loadView"
